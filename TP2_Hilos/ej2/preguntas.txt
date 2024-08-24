@@ -1,0 +1,8 @@
+a. ¿Cómo es el comportamiento de las diferentes ejecuciones?.
+tarda mas tiempo en llamar a cada metodo hasta "en la pilaa" en ejecucion y muestra en multiples ejecuciones
+el cartel "en main" antes que el de "en pila"
+en main 
+en pila
+
+b. ¿Se podría forzar las ejecuciones para que se comporte de una manera
+determinada? Realice las modificaciones pertinentes.

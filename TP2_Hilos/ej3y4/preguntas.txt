@@ -1,0 +1,5 @@
+a. Si lo ejecuto varias veces, ¿qué sucede?
+
+
+Thread, implemente el ejercicio anterior utilizando la interfaz Runnable.
+a. ¿Qué sucede? ¿Es necesario el constructor?
