@@ -2,7 +2,7 @@ package TP2_Hilos.ej5;
 
 class MiHilo implements Runnable {
     String nombreHilo;
-    unHilo(String nombre){
+    MiHilo(String nombre){
        nombreHilo=nombre;
     }
     //Punto de entrada del hilo

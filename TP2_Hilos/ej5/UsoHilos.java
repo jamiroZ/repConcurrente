@@ -4,7 +4,7 @@ class UsoHilos{
     public static void main(String[] args) {
        System.out.println("Hilo principal iniciando.");
        //Primero, construye un objeto unHilo.
-       unHilo mh=new unHilo("#1");
+       MiHilo mh=new MiHilo("#1");
        //Luego, construye un hilo de ese objeto.
        Thread nuevoHilo=new Thread(mh);
        //Finalmente, comienza la ejecución del hilo.

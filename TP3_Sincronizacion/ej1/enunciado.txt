@@ -1,0 +1,2 @@
+a) Ejecute el código y comente el resultado. ¿Qué corrección debería realizar para
+mejorar la protección de los datos?.
