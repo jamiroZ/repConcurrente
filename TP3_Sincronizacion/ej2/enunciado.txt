@@ -1,0 +1,15 @@
+2) Realice un programa en el que se presente la interacción entre dos entidades que afectan
+un recurso compartido, al que llamaremos "Energía", inicializado en 10 unidades. La
+dinámica es la siguiente:
+● La Criatura Oscura (hilo 1) nos drena (-) 3 unidades de Energía.
+● El Sanador (hilo 2) nos revitaliza (+) 3 unidades de Energía.
+a) Asegúrese de considerar las operaciones de adquisición de energía, su
+modificación y su posterior actualización en el recurso compartido. Ejecuta el
+programa varias veces y registra el valor resultante en cada ocasión.
+
+
+
+b) Con base en sus observaciones, ¿qué conclusiones puede extraer?
+
+c) Luego, proceda a modificar el programa utilizando una herramienta para
+sincronizar la ejecución de los hilos.
