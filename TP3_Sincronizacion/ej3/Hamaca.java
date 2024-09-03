@@ -4,7 +4,13 @@ public class Hamaca {
     public Hamaca(){
 
     }
-    public synchronized void hamacar(){
-        System.out.println(Thread.currentThread().getName() +"hamaca");
+    public synchronized void duerme(){
+        System.out.println(Thread.currentThread().getName() +"duerme");
+        try{//simulo el tiempo
+            Thread.sleep(1000);
+       }catch(Exception e){
+
+       }
+       System.out.println(Thread.currentThread().getName() +"desperto");
     }
 }

@@ -5,6 +5,12 @@ public class Plato {
 
     }
     public synchronized void comer(){
-        System.out.println(Thread.currentThread().getName() +"juega");
+        System.out.println(Thread.currentThread().getName() +"come");
+        try{//simulo el tiempo
+            Thread.sleep(1000);
+        }catch(Exception e){
+
+        }
+        System.out.println(Thread.currentThread().getName() +"dejo de comer");
     }
 }

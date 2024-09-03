@@ -6,5 +6,11 @@ public class Rueda {
     }
     public synchronized void jugar(){
           System.out.println(Thread.currentThread().getName() +"juega");
+          try{//simulo el tiempo
+               Thread.sleep(1000);
+          }catch(Exception e){
+
+          }
+          System.out.println(Thread.currentThread().getName() +"dejo de jugar");
     }
 }
