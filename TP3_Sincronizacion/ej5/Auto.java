@@ -16,14 +16,12 @@ public class Auto extends Vehiculo implements Runnable{
      }
      public void run(){
          try{
-             int n=(int) (Math.random() * (100-3 + 1));//kilometros recorridos
+             int n=(int) (Math.random() * (100-10 + 1));//kilometros recorridos
              super.setKm(n);
-             if(n>80){//simula el limite para poder cargar nafta en el surtidor
+             //System.out.println(n);
+             if(n>30){//simula el limite para poder cargar nafta en el surtidor
                 surtidor.usar();
-                Thread.sleep(500);
-                System.out.println(Thread.currentThread().getName()+" termino de cargar nafta");
              }
-          
          }catch(Exception e){
              System.out.println(e);
          }
