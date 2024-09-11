@@ -7,7 +7,7 @@ public class Main {
          P1 proceso1=new P1( obj );
          P2 proceso2=new P2( obj );
          P3 proceso3=new P3( obj );
-         P4 proceso4=new P4( obj );
+         P4 proceso4= new P4( obj );
          //
          p1=new Thread(proceso1);
          p2=new Thread(proceso1);
