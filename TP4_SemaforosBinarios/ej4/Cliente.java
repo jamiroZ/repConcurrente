@@ -9,16 +9,20 @@ public class Cliente implements Runnable{
     }
     public void run(){
           int i=0;
-          while(i< centro.length){//hasta que no se usen todas las impresoras que repita
+          Boolean flag=false;
+          while(!flag){//hasta que no se usen todas las impresoras que repita
                 try {
-                    centro[i].usar();
-                    usando();
-                    centro[i].dejar();
+                    flag=centro[i].usar();
+                    if(flag){
+                        usando();
+                        centro[i].dejar();
+                        
+                    }
+                    
                 } catch (Exception e) {
                     // TODO: handle exception
                 } 
-                i++;
-                    
+                i++; 
           }
     }
     public static void usando(){

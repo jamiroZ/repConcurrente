@@ -9,16 +9,21 @@ public class Impresora {
            this.numI=numI;
            this.disponible=new Semaphore(1);
     }
-    public void usar(){
+    public boolean usar(){
+        boolean usando=false;
         try {
-            this.disponible.acquire();
-            System.out.println(Thread.currentThread().getName()+" usa impresora "+numI);
+            if(this.disponible.tryAcquire()){//INTENTA USAR LA IMPRESORA
+               usando=true;
+               System.out.println(Thread.currentThread().getName()+" usa impresora "+numI);
+            }
         } catch (Exception e) {
             // TODO: handle exception
         }
+        return usando;
     }
-    public void dejar(){
+    public Boolean dejar(){
         System.out.println(Thread.currentThread().getName()+" dejo de usar impresora "+numI);
         this.disponible.release();//libera impresora
+        return true;
     }
 }
