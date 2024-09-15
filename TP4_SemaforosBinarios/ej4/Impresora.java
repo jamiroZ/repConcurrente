@@ -10,8 +10,9 @@ public class Impresora {
            this.disponible=new Semaphore(1);
     }
     public boolean usar(){
-        boolean usando=false;
+        boolean usando=false;//si no pudo usar la impresora retorna
         try {
+            //System.out.println(this.disponible.tryAcquire());
             if(this.disponible.tryAcquire()){//INTENTA USAR LA IMPRESORA
                usando=true;
                System.out.println(Thread.currentThread().getName()+" usa impresora "+numI);
@@ -21,9 +22,9 @@ public class Impresora {
         }
         return usando;
     }
-    public Boolean dejar(){
+    public void dejar(){
+        
         System.out.println(Thread.currentThread().getName()+" dejo de usar impresora "+numI);
         this.disponible.release();//libera impresora
-        return true;
     }
 }
