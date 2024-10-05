@@ -42,12 +42,15 @@ public class Cafeteria {
     //mozo atiende
 
     public void atenderEmpleado(){
+    
         try {
-            this.tomar.acquire();//si el mozo no esta ocupado atiende al empleado
-            System.out.println("mozo atiende al empleado");
+             this.tomar.acquire();//si el mozo no esta ocupado atiende al empleado
+             System.out.println("mozo atiende al empleado");
+             
         } catch (Exception e) {
             // TODO: handle exception
         }
+        
     }
     public void servirBebida(){
         System.out.println("mozo le sirve la bebida");

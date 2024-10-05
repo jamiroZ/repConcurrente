@@ -10,12 +10,16 @@ public class Mozo implements Runnable {
     public void run(){
         Random r=new Random();
         boolean flag=false;
+
         try {
+            
             while(!flag){//siempre esta en la cafeteria 
-                espacio.atenderEmpleado();//hay empleado sentado
+                this. espacio.atenderEmpleado();//hay empleado sentado
                 Thread.sleep(r.nextInt(700));
+                
                 this.espacio.servirBebida();
-                Thread.sleep(1000);//simula tiempo de inventar reseta
+                
+                Thread.sleep(0);//simula tiempo de inventar reseta
             }
         } catch (Exception e) {
             // TODO: handle exception

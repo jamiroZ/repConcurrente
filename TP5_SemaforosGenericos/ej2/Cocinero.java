@@ -13,7 +13,7 @@ public class Cocinero implements Runnable{
         try {
             while(!flag){//siempre esta en la cafeteria 
                 espacio.servirEmpleado();//un empleado quiere comer algo entonces lo atiende
-                Thread.sleep(r.nextInt(1500));
+                Thread.sleep(r.nextInt(1000));
                 this.espacio.servirComida();//sirve la comida y se libera para otros empleados
                
             }

@@ -3,11 +3,11 @@ package TP5_SemaforosGenericos.ej2;
 public class Main {
     public static void main(String[] args) {
         Cafeteria conf=new Cafeteria();//objeto compartido
-        Empleado[]empleados=new Empleado[2];
+        Empleado[]empleados=new Empleado[6];
         Thread[]hilos=new Thread[empleados.length];
         
         for(int i=0; i<empleados.length;i++){//empleados
-              int alt=1;//(1+(int)(Math.random()*3));
+              int alt=(1+(int)(Math.random()*3));
               switch (alt) {
                 case 1:
                        empleados[i]=new Empleado('a',conf);
