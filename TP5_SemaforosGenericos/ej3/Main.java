@@ -25,10 +25,10 @@ public class Main {
         }
         //hilos listos
         
-        for(int i=1 ; i < cantP ; i++){//
-            
+        for(int i=1 ; i < cantP ; i++){//   
+            gato[i].start();    
             perro[i].start();       
-            gato[i].start();
+            
                
         }
     

@@ -6,8 +6,9 @@ public class Perro implements Runnable{
          this.objComedor=objComedor;
     }
     public void run(){
+      
         try {
-            Thread.sleep(600);
+           // Thread.sleep( 100);
             this.objComedor.comerPerro();
             Thread.sleep(1000);
             System.out.println("come");

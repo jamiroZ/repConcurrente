@@ -7,6 +7,7 @@ public class Gato implements Runnable {
       }
       public void run(){
             try {
+                //Thread.sleep( 100);
                 this.objComedor.comerGato();
                 Thread.sleep(1000);
                 System.out.println("come");
