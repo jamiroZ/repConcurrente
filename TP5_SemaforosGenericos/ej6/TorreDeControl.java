@@ -4,6 +4,7 @@ import java.util.concurrent.Semaphore;
 
 public class TorreDeControl {//
     private Semaphore pista;
+   
     private Semaphore aterrizaje;
     private Semaphore despege;
     

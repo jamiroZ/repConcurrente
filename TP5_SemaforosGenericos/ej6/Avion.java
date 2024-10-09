@@ -12,7 +12,7 @@ public class Avion implements Runnable{
         while(true){
             try {
                 this.torre.IntentaAterrizar();
-                Thread.sleep(200);
+                Thread.sleep(300);
                 this.torre.aterriza();
                 Thread.sleep(r.nextInt(1000)+300);
                 this.torre.IntentaDespegar();
