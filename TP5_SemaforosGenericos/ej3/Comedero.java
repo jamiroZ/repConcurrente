@@ -40,18 +40,21 @@ public class Comedero {
 
       public void comerPerro() {
           try {
-              this.hayGato.tryAcquire(MAX_animales_x_turno);
               this.mutux.acquire();
-                  cantPerrosEspernado++;
-                  
-              this.mutux.release();
+                   //ADVERTENCIA 
+                   //LA CANTIDAD DE PERMISOS DEL TRYACQUARE MODIFICA BASTANTE    
+                   this.hayGato.tryAcquire(cantGatosEspernado);
+                   cantPerrosEspernado++;       
+                    
+                   this.hayPerro.acquire();//toma uno de n permisos de perros
+                   
+                   cantPerrosEspernado--;//ya no esta en espera
+              this.mutux.release();    
+              this.platos.acquire();//si hay espacio que entre a comer      
+                  cantPerrosComiendo++;//ahora esta c
               
-                  this.hayPerro.acquire();
-                  cantPerrosEspernado--;
-                  cantPerrosComiendo++;
-                
               System.out.println("perro "+Thread.currentThread().getName()+" entro a comer");
-             
+               
           } catch (Exception e) {
             // TODO: handle exception
           }
@@ -60,30 +63,34 @@ public class Comedero {
           System.out.println("perro "+Thread.currentThread().getName()+" salio del comedor");
           //comieron todos los perros y hay gatos esperando
           try {
-                 if(cantPerrosComiendo == cant && cantGatosEspernado > 0){
-                      this.mutux.acquire();
-                         cantPerrosEspernado=0;
-                  
-                     this.mutux.release();
+              this.mutux.acquire();
+                  if(cantPerrosComiendo == cant && cantGatosEspernado > 0){
+                          System.out.println("a"+cantPerrosEspernado+" "+cantPerrosComiendo);
+                          cantPerrosComiendo=0;
+                          this.hayGato.release(cantGatosEspernado);
                     
-                      this.hayGato.release(MAX_animales_x_turno);
+                  }else //no comieron todos los perros pero no hay gatos esperando
+                  if(cantPerrosComiendo < cant && cantGatosEspernado == 0){
+                           System.out.println("b"+cantPerrosEspernado+" "+cantPerrosComiendo);
+                           this.platos.release();
+                      
+                  }else //no comieron todos los perros ,no hay perros esperando y hay gatos esperando
+                  if(cantPerrosComiendo < cant && cantPerrosEspernado == 0 && cantGatosEspernado > 0 ){    
+                           System.out.println("c"+cantPerrosEspernado+" "+cantPerrosComiendo);
+                           cantPerrosComiendo=0;
+                           this.hayGato.release(cantGatosEspernado);  
+                      
+                  }else //no hay perros ni gatos esperando (termina)
+                  if(cantGatosEspernado == 0 && cantPerrosComiendo < cant){
+                          System.out.println("D");
+                          this.platos.release();
                   
-                 }else //no comieron todos los perros pero no hay gatos esperando
-                 if(cantPerrosComiendo < cant && cantGatosEspernado == 0){
-                      
-                      this.hayPerro.release();//libero permiso para que sigan entrando mas perros
-
-                 }else //no comieron todos los perros ,no hay perros esperando y hay gatos esperando
-                 if(cantPerrosComiendo < cant && cantPerrosEspernado==0 && cantGatosEspernado > 0 ){
-                      
-                      cantPerrosComiendo=0;  
-                      this.hayGato.release(MAX_animales_x_turno);      
-                       
-                 }else if(cantGatosEspernado==0 && cantPerrosEspernado==0){//no hay perros ni gatos esperando (termina)
+                  }else 
+                  if(cantGatosEspernado == 0 && cantPerrosEspernado == 0){//no hay perros ni gatos esperando (termina)
                       System.out.println("no hay mas perros ni gatos esperando");
-               
-                 }
-
+           
+                  }
+              this.mutux.release();
           } catch (Exception e) {
             // TODO: handle exception
           }
@@ -93,49 +100,54 @@ public class Comedero {
       }
       public void comerGato() {
           try {
-            this.hayPerro.tryAcquire(MAX_animales_x_turno);
             this.mutux.acquire();
-                cantGatosEspernado++;
-            this.mutux.release();
-          
-               this.hayGato.acquire();
-               cantGatosEspernado--;
-               cantPerrosComiendo++;
+                 this.hayPerro.tryAcquire(cantPerrosEspernado);  
+                 cantGatosEspernado++;
+                 
+                 this.hayGato.acquire();//si hay espacio que 
+                 
+                 cantGatosEspernado--;
+            this.mutux.release();       
+            this.platos.acquire();
+                 cantGatosComiendo++;
             
             System.out.println("gato "+Thread.currentThread().getName()+" entro a comer"); 
-            
+          
           } catch (Exception e) {
            // TODO: handle exception
           }
       }
       public void salirGato() {
-          System.out.println("gato "+Thread.currentThread().getName()+" salio del comedor"); 
+        System.out.println("gato "+Thread.currentThread().getName()+" salio del comedor"); 
         try {
-           
-          if(cantGatosComiendo == cant && cantPerrosEspernado > 0){
-                       
-            this.mutux.acquire();
-                 cantGatosComiendo=0;
-            
-            this.mutux.release();
-          
-            this.hayPerro.release(MAX_animales_x_turno);
-        
-          }else //no comieron todos los perros pero no hay gatos esperando
-          if(cantGatosComiendo < cant && cantPerrosEspernado == 0){
-              
-            this.hayGato.release();//libero permiso para que sigan entrando mas perros
-       
-          }else //no comieron todos los perros ,no hay perros esperando y hay gatos esperando
-          if(cantGatosComiendo < cant && cantGatosEspernado==0 && cantPerrosEspernado > 0 ){
-            
-            cantGatosComiendo=0;  
-            this.hayPerro.release(MAX_animales_x_turno);      
+          this.mutux.acquire();   
+             if(cantGatosComiendo == cant && cantPerrosEspernado > 0){
+                    System.out.println("A"+cantGatosEspernado+" "+cantGatosComiendo);
+                    cantGatosComiendo=0;
+                    this.hayPerro.release(cantPerrosEspernado);
              
-          }else if(cantPerrosEspernado==0 && cantGatosEspernado==0){//no hay perros ni gatos esperando (termina)
-            System.out.println("no hay mas perros ni gatos esperando");
-     
-          }
+             }else //no comieron todos los perros pero no hay gatos esperando
+             if(cantGatosComiendo < cant && cantPerrosEspernado == 0){
+                     System.out.println("B"+cantGatosEspernado+" "+cantGatosComiendo);
+                     this.platos.release();
+             }else //no comieron todos los perros ,no hay perros esperando y hay gatos esperando
+             if(cantGatosComiendo < cant && cantGatosEspernado==0 && cantPerrosEspernado > 0 ){
+                     System.out.println("C"+cantGatosEspernado+" "+cantGatosComiendo);
+                     cantGatosComiendo=0;
+                     this.hayPerro.release(cantPerrosEspernado);      
+          
+             }else//no hay perros esperando que salga no ma (termina)
+             if(cantPerrosEspernado == 0 && cantGatosComiendo < cant){
+                     System.out.println("D"+cantGatosEspernado+" "+cantGatosComiendo);
+                    this.platos.release();
+              
+             }else 
+             if(cantPerrosEspernado==0 && cantGatosEspernado==0){//no hay perros ni gatos esperando (termina)
+                  System.out.println("no hay mas perros ni gatos esperando");
+
+             }
+          this.mutux.release();
+          
         } catch (Exception e) {
           // TODO: handle exception
         }
