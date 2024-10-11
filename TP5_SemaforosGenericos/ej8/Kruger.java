@@ -3,96 +3,87 @@ package TP5_SemaforosGenericos.ej8;
 import java.util.concurrent.Semaphore;
 
 public class Kruger {
-    private Semaphore cuerda;
+  
     private Semaphore mutex;
     //babuinos a la derecha o izquierda del acantilado
-    private Semaphore babuinosIzq;
-    private Semaphore babuinosDer;
+    private Semaphore cuerda_Izq;
+    private Semaphore cuerda_Der;
   
-
-    //contador de cuantos pasaron de cada lado
-    private int pasaronIzq;
-    private int pasaronDer;
-    
-    private int pasaronIzqTotal=0;
-    private int pasaronDerTotal=0;
-    
-    private int permisos_Babuinos=15;
+    private int limite_Cuerda =5;//cantidad de babuinos que pueden cruzarla al mismo tiempo
+    private int cruzado;//contador
     public Kruger(){
+   
+        this.mutex=new Semaphore(1);//exclusion
         //5 babuinos pueden crusar al mismo tiempo
-        this.cuerda=new Semaphore(5);
-        this.mutex=new Semaphore(1);
+        this.cuerda_Der=new Semaphore(5);
+        this.cuerda_Izq=new Semaphore(5);
         
-        this.babuinosDer=new Semaphore(permisos_Babuinos);
-        this.babuinosIzq=new Semaphore(permisos_Babuinos);
-        
-        this.pasaronIzq=0;
-        this.pasaronDer=0;
-    
+        this.cruzado=0;
     }
     public void cruzarCuerdaIzq(){
         try {
-             this.mutex.acquire();
-                 this.babuinosDer.tryAcquire(permisos_Babuinos);
-                 this.cuerda.acquire();
-                 pasaronIzq++;
-
-            this.mutex.release();
-            System.out.println("babuino izquierda "+Thread.currentThread().getName()+" se colgo de la cuerda");
-        } catch (Exception e) {
+          cuerda_Izq.acquire();
+             mutex.acquire();
+               if(cruzado==0){
+                    cuerda_Der.acquire(limite_Cuerda);
+               }
+               cruzado++;
+           
+               System.out.println("babuino izquierda "+Thread.currentThread().getName()+" se colgo de la cuerda");
+              mutex.release();
+            } catch (Exception e) {
             // TODO: handle exception
         }
     }
 
     public void bajarCuerdaIzq(){
-        System.out.println("babuino izquierda "+Thread.currentThread().getName()+" Bajo de la cuerda");
+        
         try {
-            this.mutex.acquire();
-                if(pasaronIzq==5){
-                     //aumento el contador de babuinos que pasar del lado derecho a izquierdo
-                     this.pasaronIzqTotal=pasaronIzqTotal+pasaronIzq;
-                     pasaronIzq=0;
-                     
-                     this.babuinosDer.release(permisos_Babuinos);
+            mutex.acquire();
+                cruzado--;
+                if(cruzado==0){
+                    cuerda_Der.release(limite_Cuerda);
                 }
-                
+     
+                System.out.println("babuino izquierda "+Thread.currentThread().getName()+" Bajo de la cuerda");
+                this.cuerda_Izq.release();
             this.mutex.release();
         } catch (Exception e) {
             // TODO: handle exception
-        }this.cuerda.release();
+        }
     }
-
 
 
     public void cruzarCuerdaDer(){
         try {
-            this.mutex.acquire();//esclucion 
-                 //bloqueo a los babuinos del otro lado
-                 this.babuinosIzq.tryAcquire(permisos_Babuinos);
-                 this.cuerda.acquire();//si hay espacio se cuelga de la cuerda ,hasta 5 
-                 pasaronDer++;
-            this.mutex.release();
+            cuerda_Der.acquire();
+               this.mutex.acquire();
+                 if(cruzado==0){
+                     cuerda_Izq.acquire(limite_Cuerda);
+                 }
+                 cruzado++;
                  System.out.println("babuino derecho "+Thread.currentThread().getName()+" se colgo de la cuerda");
+           
+               this.mutex.release();
         } catch (Exception e) {
             // TODO: handle exception
         }
     }
     public void bajarCuerdaDer(){
-        System.out.println("babuino derecho "+Thread.currentThread().getName()+" Bajo de la cuerda");
+       
         try {
-            this.mutex.acquire();
-                if(pasaronDer==5){
-                     //aumento el contador de babuinos que pasar del lado derecho a izquierdo
-                     this.pasaronDerTotal=pasaronDerTotal+pasaronDer;
-                     pasaronDer=0;
-                     this.babuinosIzq.release(permisos_Babuinos);
-                }
-                
-            this.mutex.release();
-        } catch (Exception e) {
+            mutex.acquire();
+              cruzado--;
+              if(cruzado==0){
+                cuerda_Izq.release(limite_Cuerda);
+              }
+
+              System.out.println("babuino derecho "+Thread.currentThread().getName()+" Bajo de la cuerda");
+              cuerda_Der.release();
+            mutex.release();
+            } catch (Exception e) {
             // TODO: handle exception
         }
-        this.cuerda.release();
     }
     
 }

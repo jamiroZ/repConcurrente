@@ -12,17 +12,16 @@ public class Babuinos implements Runnable{
      public void run(){
          Random r=new Random();
          try {
+            Thread.sleep(r.nextInt(100));
              switch (lado) {
                 case 'I':
                     parqueNacional.cruzarCuerdaIzq();
                     Thread.sleep(r.nextInt(1000));
-                    System.out.println("babuino izquierda "+Thread.currentThread().getName()+" cruzo por la cuerda");
                     parqueNacional.bajarCuerdaIzq();
                 break;
                 case 'D':
                     parqueNacional.cruzarCuerdaDer();
-                    Thread.sleep(r.nextInt(1000));
-                    System.out.println("babuino derecha "+Thread.currentThread().getName()+" cruzo por la cuerda");
+                    Thread.sleep(r.nextInt(2000));
                     parqueNacional.bajarCuerdaDer();
                 break;
                 default:
