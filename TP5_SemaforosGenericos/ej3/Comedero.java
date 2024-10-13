@@ -43,7 +43,7 @@ public class Comedero {
               this.mutux.acquire();
                    //ADVERTENCIA 
                    //LA CANTIDAD DE PERMISOS DEL TRYACQUARE MODIFICA BASTANTE    
-                   this.hayGato.tryAcquire(cantGatosEspernado);
+                   this.hayGato.tryAcquire(MAX_animales_x_turno );
                    cantPerrosEspernado++;       
                     
                    this.hayPerro.acquire();//toma uno de n permisos de perros
@@ -65,6 +65,7 @@ public class Comedero {
           try {
               this.mutux.acquire();
                   if(cantPerrosComiendo == cant && cantGatosEspernado > 0){
+                        
                           System.out.println("a"+cantPerrosEspernado+" "+cantPerrosComiendo);
                           cantPerrosComiendo=0;
                           this.hayGato.release(cantGatosEspernado);

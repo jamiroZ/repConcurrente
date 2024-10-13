@@ -28,7 +28,6 @@ public class Babuinos implements Runnable{
 
                 break;
              }
-             Thread.sleep(r.nextInt(3000));
          } catch (Exception e) {
             // TODO: handle exception
          }
