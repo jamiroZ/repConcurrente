@@ -12,7 +12,7 @@ public class Babuinos implements Runnable{
      public void run(){
          Random r=new Random();
          try {
-            Thread.sleep(r.nextInt(100));
+           
              switch (lado) {
                 case 'I':
                     parqueNacional.cruzarCuerdaIzq();
