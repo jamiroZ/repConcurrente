@@ -8,11 +8,13 @@ public class Babuinos implements Runnable{
     public Babuinos(Kruger parqueNacional,char lado){
          this.parqueNacional=parqueNacional;
          this.lado=lado;
+
      }
      public void run(){
          Random r=new Random();
-         try {
-           
+         try {     
+
+             this.parqueNacional.inicio();                 
              switch (lado) {
                 case 'I':
                     parqueNacional.cruzarCuerdaIzq();
