@@ -1,4 +1,5 @@
-package TP6_Monitores.ej4;
+package TP6_Monitores.ej5;
+
 import java.util.Random;
 
 public class Productor implements Runnable{
@@ -9,13 +10,12 @@ public class Productor implements Runnable{
     }
    
     public void run(){
-      Random r=new Random();
+
       try {
-        while(true){
+
             this.almacen.agregarProducto();
             Thread.sleep((int) (Math.random() * 2000)); // Esperar un tiempo aleatorio
-        }
-        
+          
       } catch (Exception e) {
         // TODO: handle exception
       }

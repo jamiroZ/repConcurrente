@@ -6,8 +6,8 @@ public class Almacen {
     private String[]productos;//productos
     public Almacen(int capacidad){
         //arranca con estanterias llenas
-         this.estanterias=capacidad;
-              
+         this.estanterias=capacidad;//contador
+         this.capacidad=capacidad;//limite
     }
     public synchronized void agregarProducto(){
         try {
@@ -19,8 +19,10 @@ public class Almacen {
             // TODO: handle exception
         }
         estanterias++;//agrega un producto
-        System.out.println("Se ha agregado un producto");
-        this.notify();//avisa a los consumidores
+        System.out.println("Se ha agregado un producto"+estanterias+" "+capacidad);
+        if(estanterias<capacidad){
+             this.notify();//avisa a los consumidores
+        }
     }
 
     public synchronized void eliminarProducto(){
