@@ -1,4 +1,4 @@
-package TP6_Monitores.ej7;
+package TP7_Locks.ej3;
 
 public class Main {
     public static void main(String[] args) {
