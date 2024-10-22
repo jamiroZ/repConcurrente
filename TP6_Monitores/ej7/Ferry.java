@@ -21,7 +21,7 @@ public class Ferry {
             while(this.espaciOcupado > 0){//si el ferry no esta lleno espere
                   this.wait();
             }
-
+          
             System.out.println("----ferry arranca viaje----");
         } catch (Exception e) {
             // TODO: handle exception
@@ -30,10 +30,9 @@ public class Ferry {
 
     public void llegoDestino() {
         try {
-            while(!this.flag){
-                
-            }
+            
             System.out.println("----ferry llego al destino----");
+            this.
         } catch (Exception e) {
             // TODO: handle exception
         }
@@ -61,6 +60,7 @@ public class Ferry {
     //metodos de automovil
     public void embarqueAutomoviles(){
         try{
+
             while(this.espaciOcupado==0){
                 System.out.println("el ferry no volvio espere");
                 this.wait();
