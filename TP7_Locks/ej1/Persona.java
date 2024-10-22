@@ -2,20 +2,24 @@ package TP7_Locks.ej1;
 import java.util.Random;
 
 public class Persona implements Runnable{
-    private char tipo;//si es jubilado 'j' si no da igual
+    private boolean flag;//si es jubilado 'true'
     private Sala museo;
-    public Persona( Sala museo,char tipo){
+    public Persona( Sala museo,boolean flag){
         this.museo=museo;
-        this.tipo=tipo;
+        this.flag=flag;
     
     }
     public void run(){
       Random r=new Random();
        try {
-            if(this.tipo=='j'){
-                
+            if(flag){
+               this.museo.entrarSalaJubilado();
+            }else{
+                this.museo.entrarSala();
             }
-             Thread.sleep((int) (Math.random() * 2000)); // Esperar un tiempo aleatorio
+            Thread.sleep(r.nextInt(4000)+1000);
+            this.museo.salirSala();
+            
        } catch (Exception e) {
         // TODO: handle exception
        }
