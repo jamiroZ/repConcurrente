@@ -31,7 +31,7 @@ public class Observatorio {
                 this.capacidad=30;//se limita la capacidad hasta que salga
             }
             //si hay investigadores o mantenimiento o esta lleno espera
-            while(this.investigadorDentro !=this.capacidad || this.mantenimientoDentro != this.capacidad || 0 == this.genteDentro){
+            while(this.investigadorDentro < this.capacidad || this.mantenimientoDentro < this.capacidad || 0 >= this.genteDentro){
                System.out.println("visi "+investigadorDentro+" "+mantenimientoDentro+" "+visitanteDentro);
                 this.hayVisitantes.await();
             }
@@ -72,7 +72,7 @@ public class Observatorio {
      public void entrarInvestigador() throws  InterruptedException {
         lock.lock();
         try {
-            while(this.visitanteDentro !=this.capacidad || this.mantenimientoDentro != this.capacidad || 0 == this.investigadorDentro){
+            while(this.visitanteDentro < this.capacidad || this.mantenimientoDentro < this.capacidad || 0 >= this.investigadorDentro){
                 System.out.println("invi "+investigadorDentro+" "+mantenimientoDentro+" "+visitanteDentro);
                 this.hayInvestigadores.await();
             }
@@ -113,7 +113,7 @@ public class Observatorio {
      public void entrarMantenimiento() throws  InterruptedException {
         lock.lock();
         try {
-            while(this.visitanteDentro !=this.capacidad || this.mantenimientoDentro ==0 || this.capacidad != this.investigadorDentro){
+            while(this.visitanteDentro < this.capacidad || 0 >= this.mantenimientoDentro || this.investigadorDentro < this.capacidad ){
                 System.out.println("mante "+investigadorDentro+" "+mantenimientoDentro+" "+visitanteDentro);
                 this.hayMantenimiento.await();
             }
@@ -132,13 +132,12 @@ public class Observatorio {
 
             System.out.println(Thread.currentThread().getName()+"  salio del observatorio");
             this.mantenimientoDentro++;
-
-         
+      
             if(this.mantenimientoDentro==this.capacidad){
                 this.hayInvestigadores.signalAll();
                 this.hayVisitantes.signalAll();
             }else{
-                   this.hayMantenimiento.signalAll();
+                this.hayMantenimiento.signalAll();
             }
             
         } catch (Exception e) {
