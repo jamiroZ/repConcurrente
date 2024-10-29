@@ -7,7 +7,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Observatorio {
      private int capacidad;
-     private int genteDentro;
 
      private int visitanteDentro=0;
      private int investigadorDentro=0;
@@ -27,17 +26,18 @@ public class Observatorio {
      public void entrarVisitante(Boolean silla) throws  InterruptedException {
         lock.lock();
         try {
-            if(silla){//es un visitante en silla de ruedas
-                this.capacidad=30;//se limita la capacidad hasta que salga
-            }
+
             //si hay investigadores o mantenimiento o esta lleno espera
-            while(this.investigadorDentro < this.capacidad || this.mantenimientoDentro < this.capacidad || 0 >= this.genteDentro){
-               System.out.println("visi "+investigadorDentro+" "+mantenimientoDentro+" "+visitanteDentro);
+            while(this.visitanteDentro==0 || this.mantenimientoDentro < this.capacidad || this.investigadorDentro < this.capacidad ){
+               // System.out.println("visi "+investigadorDentro+" "+mantenimientoDentro+" "+visitanteDentro);
                 this.hayVisitantes.await();
             }
             System.out.println(Thread.currentThread().getName()+"  entra al observatorio");
-
-            this.visitanteDentro--;//ocupa un espacio
+            this.visitanteDentro--;//ocupa un espacio 
+            
+            if(silla){//es un visitante en silla de ruedas
+                this.capacidad=30;//se limita la capacidad hasta que salga
+            }
         } catch (Exception e) {
             // TODO: handle exception
         }finally{
@@ -48,19 +48,21 @@ public class Observatorio {
      public void salirVisitante(Boolean silla) throws  InterruptedException {
         lock.lock();
         try {
+            this.visitanteDentro++;//libera un espacio del observatorio
+          
             if(silla){
+                System.out.println(Thread.currentThread().getName()+" en silla salio del observatorio");
                 this.capacidad=50;//aumenta la capacidad 
+            }else{
+                System.out.println(Thread.currentThread().getName()+"  salio del observatorio");
             }
-            System.out.println(Thread.currentThread().getName()+"  salio del observatorio");
-            this.visitanteDentro++;//libera un espacio
-           
-            if(this.visitanteDentro==this.capacidad){
+
+            if(this.visitanteDentro==this.capacidad){  //fue el ultimo en salir
                 this.hayInvestigadores.signalAll();
                 this.hayMantenimiento.signalAll();
             }else{
                 this.hayVisitantes.signalAll();
             }
-            
         } catch (Exception e) {
             // TODO: handle exception
         }finally{
@@ -72,8 +74,11 @@ public class Observatorio {
      public void entrarInvestigador() throws  InterruptedException {
         lock.lock();
         try {
-            while(this.visitanteDentro < this.capacidad || this.mantenimientoDentro < this.capacidad || 0 >= this.investigadorDentro){
-                System.out.println("invi "+investigadorDentro+" "+mantenimientoDentro+" "+visitanteDentro);
+
+            //si ya esta lleno de investigadores o hay visitantes o mantenimiento espera
+            while(this.investigadorDentro==0 || this.mantenimientoDentro < this.capacidad  || this.visitanteDentro < this.capacidad || this.mantenimientoDentro < this.capacidad        ){  
+
+               // System.out.println("invi "+investigadorDentro+" "+mantenimientoDentro+" "+visitanteDentro);
                 this.hayInvestigadores.await();
             }
             System.out.println(Thread.currentThread().getName()+"  entra al observatorio");
@@ -88,19 +93,17 @@ public class Observatorio {
      public void salirInvestigador() throws  InterruptedException {
         lock.lock();
         try {
-            
-            System.out.println(Thread.currentThread().getName()+" salio del observatorio");
-            this.investigadorDentro++;//libero espacio para investigador
-           
-                
+           this.investigadorDentro++;//libero espacio para investigador
+           System.out.println(Thread.currentThread().getName()+" salio del observatorio");
+             
+           //si fue el ultimo investigador en salir
            if(this.investigadorDentro==this.capacidad){
               this.hayMantenimiento.signalAll();
               this.hayVisitantes.signalAll();
            }else{
               this.hayInvestigadores.signalAll();
            }
-           
-            
+              
         } catch (Exception e) {
             // TODO: handle exception
         }finally{
@@ -113,8 +116,9 @@ public class Observatorio {
      public void entrarMantenimiento() throws  InterruptedException {
         lock.lock();
         try {
-            while(this.visitanteDentro < this.capacidad || 0 >= this.mantenimientoDentro || this.investigadorDentro < this.capacidad ){
-                System.out.println("mante "+investigadorDentro+" "+mantenimientoDentro+" "+visitanteDentro);
+            //si esta lleno de mantenimiento o hay visitantes o investigadores
+            while(this.mantenimientoDentro==0 ||this.investigadorDentro< this.capacidad || this.visitanteDentro < this.capacidad){
+               // System.out.println("mante "+investigadorDentro+" "+mantenimientoDentro+" "+visitanteDentro);
                 this.hayMantenimiento.await();
             }
             System.out.println(Thread.currentThread().getName()+"  entra al observatorio");
@@ -129,10 +133,10 @@ public class Observatorio {
      public void salirMantenimiento() throws  InterruptedException {
         lock.lock();
         try {
-
-            System.out.println(Thread.currentThread().getName()+"  salio del observatorio");
             this.mantenimientoDentro++;
-      
+            System.out.println(Thread.currentThread().getName()+"  salio del observatorio");
+            
+            //si fue el ultimo de mantenimiento en salir
             if(this.mantenimientoDentro==this.capacidad){
                 this.hayInvestigadores.signalAll();
                 this.hayVisitantes.signalAll();
