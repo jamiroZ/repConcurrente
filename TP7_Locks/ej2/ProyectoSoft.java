@@ -19,7 +19,8 @@ public class ProyectoSoft {
         this.contPortatil = contPortatil;
     }
     //intenta usar libro y portatil
-    public void trabajarProyecto(){
+    public void trabajarProyecto() throws  InterruptedException {
+
         lock.lock();
         try {
         
@@ -41,7 +42,8 @@ public class ProyectoSoft {
         }
     }
     //libera el libro y portatil
-    public void dejarProyecto(){
+    public void dejarProyecto() throws  InterruptedException {
+
         lock.lock();
         try {
             System.out.println("estudiante "+Thread.currentThread().getName()+" dejo un libro y un portatil ");
