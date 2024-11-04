@@ -8,9 +8,9 @@ public class Oxigeno implements Runnable {
      public void run(){
         Random r=new Random();
          try {
-            
+            while(true){
                 this.es.Olisto();
-
+            }
            
          } catch (Exception e) {
             // TODO: handle exception

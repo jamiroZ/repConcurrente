@@ -3,8 +3,8 @@ package ejercicioParcial.parcial23.ejercicio2;
 public class Main {
     public static void main(String[] args) {
         Espacio espacio=new Espacio();
-        Hidrogeno []h=new Hidrogeno[10];
-        Oxigeno [] o=new Oxigeno[10];
+        Hidrogeno []h=new Hidrogeno[1];
+        Oxigeno [] o=new Oxigeno[1];
         Thread [] hidro=new Thread[h.length];
         Thread[] oxi=new Thread[o.length];
         for (int i = 0; i < h.length; i++) {

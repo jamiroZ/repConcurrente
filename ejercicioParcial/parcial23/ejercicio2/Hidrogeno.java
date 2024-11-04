@@ -10,10 +10,10 @@ public class Hidrogeno implements Runnable{
      public void run(){
         Random r=new Random();
          try {
-            
+           while(true){
                 this.es.Hlisto();
-                
-
+                Thread.sleep(r.nextInt(4000));
+           }   
             
          } catch (Exception e) {
             // TODO: handle exception

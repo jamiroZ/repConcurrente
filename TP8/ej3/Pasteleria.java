@@ -3,52 +3,90 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import java.util.concurrent.Semaphore;
-
 public class Pasteleria {
-     //los pasteles pueden ser de estos 3 pesos(en gramos)
+     private int pesoMaxCaja;//peso maximo de la caja
+     private int pesoCaja=0;//contador de pasteles en la caja(peso)
+     //cantidad de pasteles en el mostrador
+     private int cantPastelesA=0;
+     private int cantPastelesB=0;
+     private int cantPastelesC=0;
+  
      private int pesoA;
      private int pesoB;
      private int pesoC;
-     //pueden hacerse 3 pasteles porque hay 3 hornos
-     private Semaphore pastel_Horno=new Semaphore(3);//
-     //peso maximo de las cajas
-     private int pesoMaximoCaja;//maximo de peso para llenar cajas
-     private int caja=0;//simula la caja vacia para pasteles
-     Lock lock=new ReentrantLock();
-     public Pasteleria( int pesoA, int pesoB, int pesoC, int pesoMaximoCaja){
-            this.pesoMaximoCaja=pesoMaximoCaja;
-            
+
+     private Lock caja=new ReentrantLock();
+     private Condition  cajaLlena= caja.newCondition();
+     private Condition llenarCaja= caja.newCondition();
+
+     public Pasteleria(int pesoMaxCaja,int pesoA,int pesoB, int pesoC){
+            this.pesoMaxCaja=pesoMaxCaja;
             this.pesoA=pesoA;
             this.pesoB=pesoB;
             this.pesoC=pesoC;
+     }
+     public void ponerEnMostradorPastel(int  pesoPastel){
+        this.caja.lock();
+         try {
+            System.out.println(Thread.currentThread().getName()+" pone en  el mostrador un pastel de "+pesoPastel+" gramos");
+            if(pesoPastel == this.pesoA){
+                   this.cantPastelesA++;//ahora hay pasteles A en el mostrador  
+            }else if(pesoPastel==this.pesoB){
+                   this.cantPastelesB++;//ahora hay pasteles B en el  mostrador  
+            }else{
+                   this.cantPastelesC++;//ahora hay pasteles C en el mostrador
+            }
+            this.llenarCaja.signalAll();//avisa que hay pasteles para empacar
+        } catch (Exception e) {
+            // TODO: handle exception
+         }finally{
+            this.caja.unlock();
+         }
 
      }
-     public void cocinarPastel(){
+     public void colocarEnCaja(){
+        this.caja.lock();
         try {
-            this.pastel_Horno.acquire();
+            if(this.cantPastelesA==0 || this.cantPastelesB==0 ||this.cantPastelesC==0){
+                this.llenarCaja.await();//espera a que haya cajas en el mostrador
+            }
+            if(this.cantPastelesA>0){
+                System.out.println(Thread.currentThread().getName()+" coloca en caja pastel de "+this.pesoA+" gramos");
+                if(this.pesoCaja + this.pesoA < this.pesoMaxCaja){
+
+                }
+                this.pesoCaja=this.pesoCaja + this.pesoA;//coloca pastel en la caja
+                this.cantPastelesA--;//saca del mostrador pastel A
+            }else if(this.cantPastelesB>0){
+                System.out.println(Thread.currentThread().getName()+" coloca en caja pastel de "+this.pesoB+" gramos");
+                
+                this.pesoCaja=this.pesoCaja + this.cantPastelesB;//coloca pastel en la caja
+                this.cantPastelesB--;//saca del mostrador pastel B
+            }else{
+                System.out.println(Thread.currentThread().getName()+" coloca en caja pastel de "+this.pesoC+" gramos");
+                this.pesoCaja=this.pesoCaja+ this.cantPastelesC;//coloca pastel en la caja
+                this.cantPastelesC--;//saca del  mostrador pastel C
+            }
 
         } catch (Exception e) {
             // TODO: handle exception
+        }finally{
+            this.caja.unlock();
         }
      }
-     public void ponerEnMostradorPastel(int  pesoPastel){
-        
-        System.out.println(Thread.currentThread().getName()+" pone en  el mostrador un pastel de "+this.pesoA+" gramos");
-
-        this.pastel_Horno.release();
-     }
+    
      public void retirarCaja(){
-
+        this.caja.lock();
+        try {
+            
+        } catch (Exception e) {
+            // TODO: handle exception
+        }finally{
+            this.caja.unlock();
+        }
      }
      public void reponerCaja(){
-        
-     }
-     public void tomarPastel(){
 
-     }
-     public void soltarPastel(){
-        
      }
 
 }
