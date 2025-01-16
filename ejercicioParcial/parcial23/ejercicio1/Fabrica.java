@@ -24,11 +24,11 @@ public class Fabrica {
     }
     public void embotellarAgua(){
         try {
-            almacenLleno.acquire();
+            almacenLleno.acquire();//si esta lleno el almacen no produce mas agua hasta vaciar
             this.hayBotellaAgua.acquire();//exclusion:si embotella agua no puede embotellar vino
                 this.hayBotellaVino.tryAcquire();//no puede  embotellar vino
 
-                this.botellasAgua++;
+                this.botellasAgua++;//coloca una botella en la caja
                 System.out.println(Thread.currentThread().getName()+"  embotellando agua: "+this.botellasAgua);
 
                 this.caja++;//coloca botella en la caja
@@ -36,10 +36,10 @@ public class Fabrica {
         } catch (Exception e) {
             // TODO: handle exception
         } 
-        //cuando la caja se lleno con 10lts avisa al empaquetador
-        if(this.caja==10){
+        
+        if(this.caja==10){//se lleno la caja con 10 botellas de agua avisa al empaquetador
               this.tipoCaja='a';
-             this.cajaLlena.release();
+             this.cajaLlena.release();//avisa al empaquetador que almacene y reeponga la caja
         }else{
              this.hayBotellaAgua.release();
         }
@@ -47,7 +47,7 @@ public class Fabrica {
     }
     public void embotellarVino(){
         try {
-            almacenLleno.acquire();
+            almacenLleno.acquire();//si esta lleno el almacen no produce mas vino hasta vaciar
             this.hayBotellaVino.acquire();//exclusion:si embotella vino  no puede embotellar agua
                 this.hayBotellaAgua.tryAcquire();
 
@@ -60,7 +60,7 @@ public class Fabrica {
         } catch (Exception e) {
             // TODO: handle exception
         }
-        if(this.caja==10){
+        if(this.caja==10){//se lleno con 10 botellas de vino la caja
             this.tipoCaja='v';
             this.cajaLlena.release();//avisa que la caja esta llena con 10 botellas
         }else{
@@ -70,19 +70,19 @@ public class Fabrica {
     }
     public void empaquetarCaja(){
         try {
-            this.cajaLlena.acquire();
+            this.cajaLlena.acquire();//
                this.cantCajas++;//agrega una caja al alamacen  
                
                if(this.tipoCaja=='a'){
                    
                    this.caja=0;//pone una caja nueva para llenar hasta 10 botellas
                    System.out.println("caja llena con agua");
-                   this.hayBotellaAgua.release();
+                   this.hayBotellaVino.release();
                }else{
                    
                    this.caja=0;//pone una caja nueva para llenar hasta 10 botellas
                    System.out.println("caja llena con vino");
-                   this.hayBotellaVino.release();
+                   this.hayBotellaAgua.release();
                }
                
                if(this.cantCajas==2){//si llego a los 100lts en el almacen

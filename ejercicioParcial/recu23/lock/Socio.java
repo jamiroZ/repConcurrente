@@ -11,7 +11,9 @@ public class Socio implements Runnable {
         Random r=new Random();
         try {
             while(true){
-               if(this.doblaje){//quiere ver el episodio doblada al ingles
+
+               if(doblaje){//quiere ver el episodio doblada al ingles
+                System.out.println("xxx");
                    this.capitulos.verEnIngles();
                }else{
                    this.capitulos.verEnEspañol();

@@ -13,7 +13,7 @@ public class Espacio  {
     }
     public synchronized void hacerAgua(){
 
-        System.out.println(" hizo agua "+this.cantHidrogeno+" "+this.cantOxigeno);
+        System.out.println(" hizo agua con 2 de hidrogeno "+this.cantHidrogeno+" y uno de oxigeno "+this.cantOxigeno);
         this.recipiente++;
         if(this.recipiente==this.k){//se lleno el recipiente
             System.out.println("recipiente lleno, vaciar");
@@ -24,7 +24,6 @@ public class Espacio  {
         this.cantOxigeno=0;
         this.notifyAll();//notifica que ya termino  de hacer agua
         
-
     }
     public synchronized void Olisto(){
        try { 
