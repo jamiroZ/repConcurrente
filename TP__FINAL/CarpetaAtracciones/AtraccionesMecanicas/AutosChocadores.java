@@ -2,18 +2,22 @@ package TP__FINAL.CarpetaAtracciones.AtraccionesMecanicas;
 
 import java.util.Random;
 
+import TP__FINAL.CarpetaObsCompartidos.FilaAutos;
+
 public class AutosChocadores implements Runnable {
-
-
-    
-    public AutosChocadores(){
-
+    private FilaAutos filaAutos;
+    public AutosChocadores(FilaAutos filaAutos){
+         this.filaAutos = filaAutos;
     }
     public void run(){
         Random r=new Random();
         try {
- 
-            Thread.sleep(r.nextInt(2000)+1000);
+            while(true){
+                this.filaAutos.chano();
+                Thread.sleep(r.nextInt(2000)+1000);
+                this.filaAutos.chanoChoco();
+            }
+            
         } catch (Exception e) {
             // TODO: handle exception
         }
