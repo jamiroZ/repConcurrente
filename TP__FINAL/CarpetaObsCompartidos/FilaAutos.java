@@ -6,15 +6,16 @@ public class FilaAutos {
     private boolean finalizo=false;
     public FilaAutos() {}
     //metodos del visitante
-    public void subirAuto() { 
+    public synchronized void subirAuto() { 
         try {
            
            cont++;    
            while(cont > autosOcupados){//mientras no haya espacio que espere
                 System.out.println(Thread.currentThread().getName()+" No pudo subirse espera ");
                 this.wait();
-                finalizo=false;
+                
            }
+           finalizo=false;
             System.out.println(Thread.currentThread().getName()+" subio al auto ");
             
             
@@ -24,29 +25,29 @@ public class FilaAutos {
         this.notifyAll();
         
     }
-    public void bajarAuto() {
+    public synchronized void bajarAuto() {
         try {
              while( !finalizo ){//si no finalizo la atraccion esperan
                this.wait();
              }
              System.out.println(Thread.currentThread().getName()+" baja de los autos chocadores ");
              cont--;//se bajan todos
+             if(cont==0){
+                this.notifyAll();
+             }
              
-             this.notifyAll();
         } catch (Exception e) {
             // TODO: handle exception
         }
        
     }
     //metodos de la atraccion de autos
-    public void chano(){
+    public synchronized void chano(){
         try {
-            System.out.println("xxxxx");
-            while(cont < autosOcupados){    
-                System.out.println("espera a que esten las 20 personas en los autos");
+            System.out.println("espera a que esten las 20 personas en los autos");
+            while(cont < autosOcupados){             
                 this.wait();
             }
-            
             System.out.println("--los autos estan llenos--");
         } catch (Exception e) {
             // TODO: handle exception
@@ -54,7 +55,7 @@ public class FilaAutos {
         
     }
 
-    public void chanoChoco() {
+    public synchronized void chanoChoco() {
        
         System.out.println("--terminaron los autos chocadores--");
         finalizo=true;
