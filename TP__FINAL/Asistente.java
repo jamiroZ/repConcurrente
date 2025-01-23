@@ -1,20 +1,17 @@
-package TP__FINAL.CarpetaAtracciones;
-import java.util.Random;
-
+package TP__FINAL;
 import TP__FINAL.CarpetaObsCompartidos.FilaTeatro;
-public class Espectaculo implements Runnable{
+import java.util.Random;
+public class Asistente implements Runnable{
     private FilaTeatro filaTeatro;
-
-    public Espectaculo(FilaTeatro filaTeatro){
+    public Asistente(FilaTeatro filaTeatro){
         this.filaTeatro=filaTeatro;
     }
     public void run(){
         Random r=new Random();
          try {
             while(true){
-                  this.filaTeatro.inicieLaFuncion();
-                  Thread.sleep(r.nextInt(5000));
-                  this.filaTeatro.bajarTelon();
+                  this.filaTeatro.ingresaAsistente();
+                  this.filaTeatro.saleAsistente();
             }
           
          } catch (Exception e) {
