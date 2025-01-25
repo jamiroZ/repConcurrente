@@ -12,6 +12,7 @@ public class Asistente implements Runnable{
             while(true){
                   this.filaTeatro.ingresaAsistente();
                   this.filaTeatro.saleAsistente();
+                  Thread.sleep(r.nextInt(4000));//se toman un descanzo entre show
             }
           
          } catch (Exception e) {

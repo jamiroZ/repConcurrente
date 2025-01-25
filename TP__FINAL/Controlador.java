@@ -12,7 +12,12 @@ public class Controlador{
         FilaAutos filaA=new FilaAutos();
         FilaBarco filaB=new FilaBarco();
         FilaTeatro filaT=new FilaTeatro();
-        
+        FilaRealidadVirtual filaRV = new FilaRealidadVirtual();
+
+        RealidadVirtual rv=new RealidadVirtual(filaRV);
+        Thread hiloRV = new Thread(rv);
+        hiloRV.start();
+
         MontañaRusa m=new MontañaRusa(fila);
         Thread hilo=new Thread(m);
 
@@ -34,12 +39,17 @@ public class Controlador{
         for(int i=0;i<6;i++){
             asis[i]= new Asistente(filaT);
              hiloAsis[i]=new Thread(asis[i],""+i);
-             hiloAsis[i].start();
+             //hiloAsis[i].start();
         }
-        Visitante[] visi=new Visitante[40];
-        Thread[] hilos=new Thread[40];
+        Visitante[] visi=new Visitante[20];
+        Thread[] hilos=new Thread[20];
+
+        Encargado encargado=new Encargado(filaRV);
+        Thread hiloEncargado=new Thread(encargado);
+        hiloEncargado.start();
+        
         for(int i=0;i<40;i++){
-            visi[i]=new Visitante(fila, filaA,filaB,filaT);
+            visi[i]=new Visitante(fila, filaA,filaB,filaT,filaRV);
             hilos[i]=new Thread(visi[i],""+i);
             hilos[i].start();
         }

@@ -8,18 +8,21 @@ public class Visitante implements Runnable{
     private FilaAutos filaA;
     private FilaBarco filaB;
     private FilaTeatro filaT;
-    public Visitante(FilaMontaña fila,FilaAutos filaA,FilaBarco filaB,FilaTeatro filaT){
+    private FilaRealidadVirtual filaRV;
+    public Visitante(FilaMontaña fila,FilaAutos filaA,FilaBarco filaB,FilaTeatro filaT,FilaRealidadVirtual filaRV){
         this.fila = fila;
         this.filaA = filaA;
         this.filaB = filaB;
         this.filaT = filaT;
+        this.filaRV =filaRV;
     }
     public void run(){
         Random r=new Random();
         Boolean log=false;
         try {
-               this.filaT.ingresaVisitante();
-               this.filaT.saleVisitante(); 
+            System.out.println("");
+               this.filaRV.entrarRV();
+               this.filaRV.salirRV();
         } catch (Exception e) {
             // TODO: handle exception
         }
