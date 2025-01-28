@@ -16,6 +16,7 @@ public class Controlador{
         FilaBarco filaB=new FilaBarco();
         FilaTeatro filaT=new FilaTeatro();
         FilaRealidadVirtual filaRV = new FilaRealidadVirtual();
+        FilaTren filaTren = new FilaTren();
         Parque parque=new Parque();
 
         //
@@ -23,6 +24,24 @@ public class Controlador{
         Reloj reloj=new Reloj(hora, parque);
         Thread hiloReloj=new Thread(reloj);
         hiloReloj.start();
+        Visitante[] visi=new Visitante[20];
+        Thread[] hilos=new Thread[20];
+
+        Encargado encargado=new Encargado(filaRV);
+        Thread hiloEncargado=new Thread(encargado);
+
+        Trenes trenes=new Trenes(filaTren);
+        Thread hiloTrenes=new Thread(trenes);
+        hiloTrenes.start();
+
+        //hiloEncargado.start();
+        for(int i=0;i<40;i++){
+            visi[i]=new Visitante(fila, filaA,filaB,filaT,filaRV,reloj, parque,filaTren);
+            hilos[i]=new Thread(visi[i],""+i);
+            hilos[i].start();
+        }
+        
+
 
         RealidadVirtual rv=new RealidadVirtual(filaRV);
         Thread hiloRV = new Thread(rv);
@@ -51,17 +70,6 @@ public class Controlador{
              hiloAsis[i]=new Thread(asis[i],""+i);
              //hiloAsis[i].start();
         }
-        Visitante[] visi=new Visitante[20];
-        Thread[] hilos=new Thread[20];
-
-        Encargado encargado=new Encargado(filaRV);
-        Thread hiloEncargado=new Thread(encargado);
-        //hiloEncargado.start();
         
-        for(int i=0;i<40;i++){
-            visi[i]=new Visitante(fila, filaA,filaB,filaT,filaRV,reloj, parque);
-            hilos[i]=new Thread(visi[i],""+i);
-            hilos[i].start();
-        }
     }
 }

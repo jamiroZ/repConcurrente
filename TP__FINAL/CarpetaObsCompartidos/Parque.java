@@ -2,6 +2,7 @@ package TP__FINAL.CarpetaObsCompartidos;
 
 public class Parque {
     private int cantVisitantes; 
+    private int cantEspera=0;
     private Boolean parqueAbierto;
     public Parque(){
         this.cantVisitantes=0;
@@ -14,17 +15,20 @@ public class Parque {
      */
     public synchronized void ingresarParque(){
         try {
-           
+            cantEspera++;
             while(!parqueAbierto){//espera a que abra el parque
                 System.out.println("el parque esta cerrado , espere a que abra");
                 this.wait();
             }
+            cantEspera--;
             if(cantVisitantes==0){//espacio si fue el primero
                 System.out.println(" ");
             }
             System.out.println("visitante "+Thread.currentThread().getName()+" ingreso al parque");
             cantVisitantes++;
-
+            if(cantEspera==0){
+                System.out.println(" ");
+            }
         } catch (InterruptedException ex) {
             System.out.println(" Error en Parque.ingresarParque" + ex.getMessage());
         }
