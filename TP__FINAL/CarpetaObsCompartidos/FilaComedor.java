@@ -1,7 +1,7 @@
 package TP__FINAL.CarpetaObsCompartidos;
+import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.TimeoutException;
 
 public class FilaComedor {
@@ -39,44 +39,56 @@ public class FilaComedor {
         System.out.println("visitante "+Thread.currentThread().getName()+" entra al comedor ");
     }
 
-    public synchronized int buscarMesa()throws InterruptedException, BrokenBarrierException, TimeoutException{
+    public  int buscarMesa()throws InterruptedException, BrokenBarrierException, TimeoutException{
         int mesaElegida=-1;
         int i=0;//uso para desplazarme entre las mesas
         int j=0;
-        while(mesaElegida==-1){//busca mesa 
-            if(!mesasOcupadas[i]){//si la mesa tiene espacio esta libre 
-                mesaElegida=i;
-                asientosOcupados[i]= asientosOcupados[i]+1;//ocupa 1 de 4 asientos
+        try{
+            synchronized(this){
+                while(mesaElegida==-1){//busca mesa 
+                    if(!mesasOcupadas[i]){//si la mesa tiene espacio esta libre 
+                        mesaElegida=i;
+                        asientosOcupados[i]= asientosOcupados[i]+1;//ocupa 1 de 4 asientos
 
-                System.out.println("visitante "+Thread.currentThread().getName()+" se sienta en la mesa "+mesaElegida);
-                if(asientosOcupados[i] == cantPersonasXmesa){//se lleno la mesa
-                    mesasOcupadas[i]=true;//la mesa esta ocupada
-                    j=i;
+                        System.out.println("visitante "+Thread.currentThread().getName()+" se sienta en la mesa "+mesaElegida);
+                        if(asientosOcupados[i] == cantPersonasXmesa){//se lleno la mesa
+                           mesasOcupadas[i]=true;//la mesa esta ocupada
+                        }
+                }else{
+                    i++;//busca otra mesa
                 }
-            }else{
-                i++;//busca otra mesa
-            }
-        }
-        //si se sento alguien, espera 5minutos a que se llene o sirve la comida
-        mesas[j].await(5, TimeUnit.SECONDS);
-        if(mesasOcupadas[j]){//si la mesa esta llena comen
-            System.out.println("visitante "+Thread.currentThread().getName()+" come en la mesa "+j);
+               }
+           }
+           //si se sento alguien, espera 5minutos a que se llene o sirve la comida
+           System.out.println(mesaElegida+"-"+asientosOcupados[mesaElegida]);
+           mesas[mesaElegida].await(14, TimeUnit.SECONDS);
+           if(asientosOcupados[mesaElegida] == cantPersonasXmesa){//si la mesa esta llena comen
+              System.out.println("visitante "+Thread.currentThread().getName()+" come en la mesa "+mesaElegida);
+              
+           }
+        }catch(java.util.concurrent.TimeoutException ex){
+            System.out.println("se cansaron de esperar la comida");
+
+        }catch(Exception e){
+
         }
         return mesaElegida;
     } 
 
-    public synchronized void dejarMesa(int mesaElegida) throws InterruptedException, BrokenBarrierException, TimeoutException {
-         dejarMesa[mesaElegida].await(5, TimeUnit.SECONDS);
-         asientosOcupados[mesaElegida]--;
-         System.out.println("visitante "+Thread.currentThread().getName()+" deja la mesa "+mesaElegida);
-         mesasOcupadas[mesaElegida]=false;//hay espacio para que se siente alguien
+    public void dejarMesa(int mesaElegida) throws InterruptedException, BrokenBarrierException, TimeoutException {
+        synchronized(this){
+            asientosOcupados[mesaElegida]--;
+        }
+        dejarMesa[mesaElegida].await(5, TimeUnit.SECONDS);     
+        //System.out.println("visitante "+Thread.currentThread().getName()+" deja la mesa "+mesaElegida);
+        mesasOcupadas[mesaElegida]=false;//hay espacio para que se siente alguien
         
     }
 
     public synchronized void salirComedor() throws InterruptedException{
         System.out.println("visitante "+Thread.currentThread().getName()+" sale del comedor ");
         cantPersonas--;//hay espacio en el comedor
-        this.notifyAll();
+        this.notify();
     }
 
 }

@@ -18,6 +18,7 @@ public class Controlador{
         FilaRealidadVirtual filaRV = new FilaRealidadVirtual();
         FilaTren filaTren = new FilaTren();
         FilaComedor comedor=new FilaComedor(4);
+        Premios premios=new Premios();
         Parque parque=new Parque();
       
         //
@@ -25,11 +26,15 @@ public class Controlador{
         Reloj reloj=new Reloj(hora, parque);
         Thread hiloReloj=new Thread(reloj);
         hiloReloj.start();
-        Visitante[] visi=new Visitante[20];
-        Thread[] hilos=new Thread[20];
-
+        Visitante[] visi=new Visitante[12];
+        Thread[] hilos=new Thread[12];
+        //encargado del area de realidad virtual
         Encargado encargado=new Encargado(filaRV);
         Thread hiloEncargado=new Thread(encargado);
+        //encargado el area de premios
+        EncargadoPremios encargadoP=new EncargadoPremios(premios);
+        Thread hiloEncargadoP=new Thread(encargadoP);
+        hiloEncargadoP.start();
 
         Trenes trenes=new Trenes(filaTren);
         Thread hiloTrenes=new Thread(trenes);
@@ -37,7 +42,7 @@ public class Controlador{
 
         //hiloEncargado.start();
         for(int i=0;i<40;i++){
-            visi[i]=new Visitante(fila, filaA,filaB,filaT,filaRV,reloj, parque,filaTren,comedor );
+            visi[i]=new Visitante(fila, filaA,filaB,filaT,filaRV,reloj, parque,filaTren,comedor ,premios);
             hilos[i]=new Thread(visi[i],""+i);
             hilos[i].start();
         }
