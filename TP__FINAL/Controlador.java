@@ -17,8 +17,9 @@ public class Controlador{
         FilaTeatro filaT=new FilaTeatro();
         FilaRealidadVirtual filaRV = new FilaRealidadVirtual();
         FilaTren filaTren = new FilaTren();
+        FilaComedor comedor=new FilaComedor(4);
         Parque parque=new Parque();
-
+      
         //
         AtomicInteger hora= new AtomicInteger(8);
         Reloj reloj=new Reloj(hora, parque);
@@ -36,7 +37,7 @@ public class Controlador{
 
         //hiloEncargado.start();
         for(int i=0;i<40;i++){
-            visi[i]=new Visitante(fila, filaA,filaB,filaT,filaRV,reloj, parque,filaTren);
+            visi[i]=new Visitante(fila, filaA,filaB,filaT,filaRV,reloj, parque,filaTren,comedor );
             hilos[i]=new Thread(visi[i],""+i);
             hilos[i].start();
         }
