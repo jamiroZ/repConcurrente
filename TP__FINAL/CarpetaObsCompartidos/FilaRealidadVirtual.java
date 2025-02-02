@@ -31,7 +31,7 @@ public class FilaRealidadVirtual {
             //si falta algo para tener el equipo completo espera
             cantEsp++;
             while(this.cantBases==0 || this.cantManoplas<2 || this.cantVR==0) {
-                 System.out.println(Thread.currentThread().getName()+" espera entrar a la sala de realidad virtual");
+                 //System.out.println(Thread.currentThread().getName()+" espera entrar a la sala de realidad virtual");
                  this.condEntrada.await();
             }
             cantEsp--;
@@ -41,9 +41,9 @@ public class FilaRealidadVirtual {
             this.cantVR--;
             this.cont++;
             System.out.println(Thread.currentThread().getName()+" ha entrado a la sala de realidad virtual");
-            if(cont==capacidad || cantEsp==0){
+            if(cont==capacidad ){
                 this.iniciar=true;
-               System.out.println("");
+               System.out.println(" ");
                this.condActividad.signalAll();
             }
         } catch (Exception e) {
@@ -62,7 +62,7 @@ public class FilaRealidadVirtual {
             cantSalieron++;
             if(cantSalieron==capacidad){//salieron los 8 repone
                 this.descanzo=true;
-                System.out.println("");
+                System.out.println(" ");
                 this.condReposicion.signal();//avisa al repositor que reponga 
             }
         } catch (Exception e) {
@@ -102,7 +102,7 @@ public class FilaRealidadVirtual {
             while( !this.iniciar){//hasta que no termine la actividad o no haya capacidad
                 this.condActividad.await();
             }
-            System.out.println("");
+            System.out.println(" ");
             System.out.println("--INICIA REALIDAD VIRTUAL--");
         } catch (Exception e) {
             // TODO: handle exception
@@ -115,7 +115,7 @@ public class FilaRealidadVirtual {
         try {
 
             System.out.println("--FINALIZA REALIDAD VIRTUAL--");
-            System.out.println("");
+            System.out.println(" ");
             this.finalizo=true;
             this.iniciar=false;
             this.condEntrada.signalAll();//

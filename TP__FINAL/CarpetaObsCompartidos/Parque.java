@@ -13,6 +13,11 @@ public class Parque {
      * metodo ingresarParque los hace esperar hasta que abra el parque
      * y luego lo deja entrar sincronizadamente, una ves que abrio
      */
+
+    public synchronized Boolean estadoDelParque(){
+        //System.out.println(parqueAbierto);
+        return parqueAbierto;
+    }
     public synchronized void ingresarParque(){
         try {
             cantEspera++;
@@ -21,12 +26,12 @@ public class Parque {
             }
             cantEspera--;
             if(cantVisitantes==0){//espacio si fue el primero
-                System.out.println(" ");
+                //System.out.println(" ");
             }
             System.out.println("visitante "+Thread.currentThread().getName()+" ingreso al parque");
             cantVisitantes++;
             if(cantEspera==0){
-                System.out.println(" ");
+               // System.out.println(" ");
             }
         } catch (InterruptedException ex) {
             System.out.println(" Error en Parque.ingresarParque" + ex.getMessage());
@@ -38,7 +43,7 @@ public class Parque {
      */
     public synchronized void salirParque(){
           cantVisitantes--;
-         
+          
           if(cantVisitantes==0){
              System.out.println("--TODOS LOS VISIANTES SE FUERON--");
              System.out.println(" ");      
@@ -53,12 +58,12 @@ public class Parque {
      * notifica a los visitantes
      */
     public synchronized void abrirParque(){
+        parqueAbierto=true;//deja el while en false
         System.out.println(" ");//ESPACIO
         System.out.println("-----------------");
         System.out.println("--EL PARQUE ABRE SUS PUERTAS--");
         System.out.println("-----------------");
-        System.out.println(" ");//ESPACIO
-        parqueAbierto=true;//deja el while en false
+        System.out.println(" ");//ESPACIO   
         this.notifyAll();//notifica al visitante que el parque esta abierto
     }
     /*

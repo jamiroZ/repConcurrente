@@ -22,7 +22,6 @@ public class Controlador{
         Premios premios=new Premios();
         Parque parque=new Parque();
 
-
         //---------HILOS-------
         //horarios del parque
         AtomicInteger hora= new AtomicInteger(8);
@@ -46,6 +45,7 @@ public class Controlador{
         RealidadVirtual rv=new RealidadVirtual(filaRV);
         Thread hiloRV = new Thread(rv);
         hiloRV.start();
+
         //ENCARGADO DEL AREA DE REALIDA VIRTUAL
         Encargado encargado=new Encargado(filaRV);
         Thread hiloEncargado=new Thread(encargado);
@@ -60,14 +60,6 @@ public class Controlador{
         hiloTeatro.start();
         
         //ASISTENTES DEL TEATRO
-        Asistente[] asis=new Asistente[6];
-        Thread[]hiloAsis=new Thread[6];
-        for(int i=0;i<6;i++){
-            asis[i]= new Asistente(filaT);
-             hiloAsis[i]=new Thread(asis[i],""+i);
-             //hiloAsis[i].start();
-        }
-       
         AutosChocadores autos=new AutosChocadores(filaA);
         Thread hilo2=new Thread(autos);
         hilo2.start();
@@ -76,11 +68,25 @@ public class Controlador{
         Thread hiloBarco=new Thread(b);
         hiloBarco.start();
 
+        Asistente[] asis=new Asistente[6];
+        Thread[]hiloAsis=new Thread[6];
+        for(int i=0;i<6;i++){
+            asis[i]= new Asistente(filaT,parque);
+            hiloAsis[i]=new Thread(asis[i],""+i);
+            hiloAsis[i].start();
+        }
+        try {
+            Thread.sleep(4000);//se toman un descanzo entre show
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
         for(int i=0;i<25;i++){
  
             visi[i]=new Visitante(fila, filaA,filaB,filaT,filaRV,reloj, parque,filaTren,comedor ,premios);
             hilos[i]=new Thread(visi[i],""+i);
             hilos[i].start();
         }
+        //System.out.println(parque.estadoDelParque());
+        
     }
 }

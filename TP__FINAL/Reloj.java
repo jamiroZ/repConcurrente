@@ -26,7 +26,7 @@ public class Reloj implements Runnable {
             try {
                 Thread.sleep(8000);
                 horaActual.addAndGet(1);
-                //System.out.println("hora actual: "+horaActual);
+                System.out.println("hora actual: "+horaActual);
                 switch (horaActual.get()){
                     case apertura:{
                         parque.abrirParque();
@@ -51,6 +51,7 @@ public class Reloj implements Runnable {
                     default:
                         break;
                 }
+                Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 System.out.println("Error en Reloj.run: " + ex.getMessage());
             }
