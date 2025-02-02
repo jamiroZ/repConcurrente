@@ -38,7 +38,7 @@ public class Controlador{
         Thread hiloEncargadoP=new Thread(encargadoP);
         hiloEncargadoP.start();
 
-        Trenes trenes=new Trenes(filaTren);
+        Trenes trenes=new Trenes(filaTren,parque);
         Thread hiloTrenes=new Thread(trenes);
         hiloTrenes.start();
         
@@ -76,7 +76,7 @@ public class Controlador{
             hiloAsis[i].start();
         }
         try {
-            Thread.sleep(4000);//se toman un descanzo entre show
+            Thread.sleep(5000);//
         } catch (Exception e) {
             // TODO: handle exception
         }

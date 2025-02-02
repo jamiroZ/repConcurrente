@@ -43,6 +43,7 @@ public class Visitante implements Runnable{
         try {
             AtomicInteger hora=new AtomicInteger(19);
             parque.ingresarParque();
+            Thread.sleep(4000);
             int num2=0;
             while(this.parque.estadoDelParque() ){//mientras el parque este abierto puede realizar las atracciones
                    Boolean ret;
@@ -63,15 +64,16 @@ public class Visitante implements Runnable{
                    Thread.sleep(r.nextInt(6000));//tiempo jugando en la sala de realidad virtual
                    this.filaRV.salirRV();
 
-                   */
-                   
                    this.filaT.ingresaVisitante();
                    this.filaT.saleVisitante();
+                   */
+                   this.filaTren.subirTren();
+                   this.filaTren.bajarTren();
+                   
                    /*
                    //
                    //
-                   this.filaTren.subirTren();
-                   this.filaTren.bajarTren();
+                  
                    //
                    this.comedor.entrarComedor();
                    this.comedor.buscarMesa();

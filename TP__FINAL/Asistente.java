@@ -12,7 +12,6 @@ public class Asistente implements Runnable{
     public void run(){
         Random r=new Random();
          try {
-            Thread.sleep(4000);
             while(true){
                 //si el parque esta abierto que ingrese al teatro del mismo
                 while(this.parque.estadoDelParque()){
