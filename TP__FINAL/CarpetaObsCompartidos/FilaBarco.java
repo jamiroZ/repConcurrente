@@ -21,6 +21,7 @@ public class FilaBarco {
     private Boolean finalizo=false;
     private Boolean espera=false;
     private Boolean partioBarco=false;
+    private Boolean unPasajero=false;//tiene que haber al menos un pasajero en el barco para que este arranque el conteo 
     public FilaBarco(){}
     
     public void subirBarco() throws InterruptedException {
@@ -34,7 +35,9 @@ public class FilaBarco {
                 salida.await();
             }
             contEspera--;
+            unPasajero=true;
             cont++;//se sube al barco 
+            
             System.out.println(cont+"-"+contEspera);
             System.out.println(Thread.currentThread().getName()+" Se subio al barco");
             if(cont==MAX ){//barco lleno 
@@ -53,8 +56,10 @@ public class FilaBarco {
         //si despues de 5 minutos no se subieron los 20 ya arranca el barco
         lock.lock();
         try {
-
-            boolean llenoATiempo=llegada.await(8, TimeUnit.SECONDS);
+            boolean llenoATiempo=false;
+            while(!unPasajero){//si no subio nadie que espere para arrancar el conteo
+               llenoATiempo=llegada.await(2, TimeUnit.SECONDS);
+            }
             partioBarco=true;
             if(!llenoATiempo){
                 System.out.println("--BARCO INCOMPLETO ESTA EN MARCHA--");
@@ -75,8 +80,9 @@ public class FilaBarco {
             System.out.println(" ");
 
             finalizo=false;
-            espera=true; 
-            partioBarco=false;
+            espera=true; //
+            unPasajero=false;//que espere hasta que se suba alguien y vuelva a contar el tiempo
+            partioBarco=false;//ya no esta en marcha
             salida.signalAll();
         } catch (Exception e) {
             // TODO: handle exception
