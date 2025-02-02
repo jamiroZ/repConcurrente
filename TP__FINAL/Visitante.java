@@ -27,7 +27,7 @@ public class Visitante implements Runnable{
     public Visitante(FilaMontaña fila,FilaAutos filaA,FilaBarco filaB,FilaTeatro filaT,FilaRealidadVirtual filaRV, Reloj reloj,Parque parque,FilaTren filaTren,FilaComedor comedor,Premios juegosPremios){
         this.parque=parque;
         this.reloj=reloj;
-       this.comedor=comedor;
+        this.comedor=comedor;
         this.fila = fila;
         this.filaA = filaA;
         this.filaB = filaB;
@@ -46,10 +46,41 @@ public class Visitante implements Runnable{
             Thread.sleep(1000);
             int num2=0;
             while(reloj.horaActual().get() <= hora.get() ){
+                   Boolean ret;
+                   /*ret=this.fila.subirMontaña();
+                   if(ret){
+                    this.fila.bajarMontaña();
+                   }
+                    
+                   this.filaA.subirAuto();
+                   this.filaA.bajarAuto();
+                   */
+                   Thread.sleep(r.nextInt(3000)+1000);
+                   this.filaB.subirBarco();
+                   this.filaB.bajarBarco();
+                   
+                   /*
+                   this.filaT.ingresaVisitante();
+                   this.filaT.saleVisitante();
+                   //
+                   this.filaRV.inicieActividad();
+                   Thread.sleep(r.nextInt(6000));//tiempo jugando en la sala de realidad virtual
+                   this.filaRV.finalizoActividad();
+                   //
+                   this.filaTren.subirTren();
+                   this.filaTren.bajarTren();
+                   //
+                   this.comedor.entrarComedor();
+                   this.comedor.buscarMesa();
+                   Thread.sleep(r.nextInt(10000));//tiempo comiendo
+                   this.comedor.salirComedor();
+                   //
+                
                    this.juegosPremios.pedirFicha();
-                   Thread.sleep(r.nextInt(4000));//simula tiempo jugando
-                   this.juegosPremios.jugarJuegos();
-                   this.juegosPremios.ganarPremio();
+                   Thread.sleep(r.nextInt(6000)+1000);// tiempo jugando
+                   int puntos=this.juegosPremios.jugarJuegos();
+                   this.juegosPremios.recibirPremio(puntos);
+                   */
 
             }                 
         } catch (Exception e) {

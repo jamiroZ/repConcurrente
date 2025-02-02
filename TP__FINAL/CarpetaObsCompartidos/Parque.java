@@ -17,7 +17,6 @@ public class Parque {
         try {
             cantEspera++;
             while(!parqueAbierto){//espera a que abra el parque
-                System.out.println("el parque esta cerrado , espere a que abra");
                 this.wait();
             }
             cantEspera--;

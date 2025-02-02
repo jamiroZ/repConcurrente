@@ -14,7 +14,7 @@ public class BarcoPirata implements Runnable{
         try {
             while(true){
                 this.filaBarco.arrancarBarco();
-                Thread.sleep(r.nextInt(2000)+1000);
+                Thread.sleep(r.nextInt(6000)+1000);
                 this.filaBarco.detenerBarco();
             }
             
