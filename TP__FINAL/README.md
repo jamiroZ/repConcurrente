@@ -7,6 +7,6 @@ las actividades como Area De Premios, Comedor,Trenes fueron simuladas utiliazand
 instrucciones:
 1-descomprimir el archivo .zip o clonar el repositorio
 2-abrir el (IDE) entorno de desarrollo java 
-3-Importar el proyecto descargado o clonado
+3-Importar el proyecto descargado
 4-ejecutar el archivo principal "controlador.java" 
 Autor:jamiro Zuñiga FAI-3429
