@@ -61,7 +61,7 @@ public class FilaTren {
         //System.out.println("bajarTren");
         esperaPasajero.take();
        
-            System.out.println("visitante "+Thread.currentThread().getName()+" bajo del tren "+cont);
+            System.out.println("visitante "+Thread.currentThread().getName()+" bajo del tren ");
             cont++;//libera un espacio para que suba otro pasajero
 
             if(cont==capacidad){//se bajaron todos los pasajeros

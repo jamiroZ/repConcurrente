@@ -9,15 +9,15 @@ public class Parque {
         this.parqueAbierto=false;
     }
     //METODOS QUE USA EL VISITANTE
-    /*
-     * metodo ingresarParque los hace esperar hasta que abra el parque
-     * y luego lo deja entrar sincronizadamente, una ves que abrio
-     */
-
+    //retorna un booleano que dice si esta abierto el parque
     public synchronized Boolean estadoDelParque(){
         //System.out.println(parqueAbierto);
         return parqueAbierto;
     }
+    /*
+    * metodo ingresarParque los hace esperar hasta que abra el parque
+    * y luego lo deja entrar sincronizadamente, una ves que abrio
+    */
     public synchronized void ingresarParque(){
         try {
             cantEspera++;
@@ -67,7 +67,7 @@ public class Parque {
         this.notifyAll();//notifica al visitante que el parque esta abierto
     }
     /*
-     * metodo cerrarParque cambia el estado del parque cerro
+     * metodo cerrarParque cambia el estado del parque
      * asi impidiendo que entren mas visitantes, y los que quedaron adentro
      * pueden terminar sus atracciones y salir 
      */

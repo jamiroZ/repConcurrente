@@ -44,7 +44,7 @@ public class FilaComedor {
         int i=0;//uso para desplazarme entre las mesas
         int j=0;
         try{
-            synchronized(this){
+            synchronized(this){//bloque para garantizar la exclusion mutua
                 while(mesaElegida==-1){//busca mesa 
                     if(!mesasOcupadas[i]){//si la mesa tiene espacio esta libre 
                         mesaElegida=i;

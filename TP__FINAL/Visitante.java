@@ -48,7 +48,7 @@ public class Visitante implements Runnable{
             while(this.parque.estadoDelParque() ){//mientras el parque este abierto puede realizar las atracciones
                    Boolean ret;
                   
-                   /*ret=this.fila.subirMontaña();
+                   ret=this.fila.subirMontaña();
                    if(ret){
                     this.fila.bajarMontaña();
                    }
@@ -66,11 +66,11 @@ public class Visitante implements Runnable{
 
                    this.filaT.ingresaVisitante();
                    this.filaT.saleVisitante();
-                   */
+                   
                    this.filaTren.subirTren();
                    this.filaTren.bajarTren();
                    
-                   /*
+                   
                    //
                    //
                   
@@ -85,7 +85,7 @@ public class Visitante implements Runnable{
                    Thread.sleep(r.nextInt(6000)+1000);// tiempo jugando
                    int puntos=this.juegosPremios.jugarJuegos();
                    this.juegosPremios.recibirPremio(puntos);
-                   */
+                   
                  
             }           
 
