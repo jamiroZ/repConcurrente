@@ -25,7 +25,7 @@ public class FilaTren {
           System.out.println("visitante "+Thread.currentThread().getName()+" subio al tren ");
           // System.out.println("CONT :"+cont+" SIZE:"+tren.size());
           if(cont==capacidad){//se subio al menos un pasajero que arranque     
-              esperaTren.take();//avSystem.out.println("bloqueo");isa que se prepare el tren
+              esperaTren.take();//avisa que se prepare el tren
               arrancarTren.take();//arranca el conteo de tiempo de espera (5minutos)
           }else if(cont==0){
               System.out.println("tren lleno");

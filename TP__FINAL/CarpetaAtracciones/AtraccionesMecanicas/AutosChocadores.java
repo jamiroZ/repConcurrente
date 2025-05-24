@@ -13,9 +13,9 @@ public class AutosChocadores implements Runnable {
         Random r=new Random();
         try {
             while(true){
-                this.filaAutos.chano();
+                this.filaAutos.iniciarJuego();
                 Thread.sleep(r.nextInt(2000)+1000);
-                this.filaAutos.chanoChoco();
+                this.filaAutos.finalizarJuego();
             }
             
         } catch (Exception e) {

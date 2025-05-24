@@ -1,7 +1,7 @@
 package TP__FINAL.CarpetaObsCompartidos;
-
+//CHEQUEAR LOS "notifyAll y notify"
 public class FilaAutos {
-    private int autosOcupados=20;
+    private int autosOcupados=20;//ASIENTOS POR AUTO (HAY 10 AUTOS Y ENTRAN 2 PERSONAS POR AUTO)
     private int cont=0;
     private boolean finalizo=false;
     private boolean inicio=false;
@@ -23,7 +23,7 @@ public class FilaAutos {
         } catch (Exception e) {
             // TODO: handle exception
         }
-        this.notifyAll();
+        this.notify();
         
     }
     public synchronized void bajarAuto() {
@@ -43,7 +43,7 @@ public class FilaAutos {
        
     }/////////////
     //metodos de la atraccion de autos
-    public synchronized void chano(){
+    public synchronized void iniciarJuego(){
         try {
             while( !inicio){ //no se llenaron los 10 autos con 2 personas espera            
                 this.wait();
@@ -56,13 +56,13 @@ public class FilaAutos {
         
     }
 
-    public synchronized void chanoChoco() {
+    public synchronized void finalizarJuego() {
        
         System.out.println("--terminaron los autos chocadores--");
         System.out.println(" ");
         finalizo=true;
         inicio=false;
-        this.notifyAll();
+        this.notify();
     }
         
 }

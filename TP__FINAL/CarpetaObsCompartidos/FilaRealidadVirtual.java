@@ -39,6 +39,7 @@ public class FilaRealidadVirtual {
             this.cantBases--;
             this.cantManoplas-=2;
             this.cantVR--;
+            
             this.cont++;
             System.out.println(Thread.currentThread().getName()+" ha entrado a la sala de realidad virtual");
             if(cont==capacidad ){

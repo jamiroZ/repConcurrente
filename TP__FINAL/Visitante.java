@@ -52,14 +52,15 @@ public class Visitante implements Runnable{
                    if(ret){
                     this.fila.bajarMontaña();
                    }
-                    
+                   Thread.sleep(r.nextInt(10000));
+                /* 
                    this.filaA.subirAuto();
                    this.filaA.bajarAuto();
                 
                    Thread.sleep(r.nextInt(3000)+1000);
                    this.filaB.subirBarco();
-                   this.filaB.bajarBarco();
-
+                   this.filaB.bajarBarco();*/
+                /*                  
                    this.filaRV.entrarRV();
                    Thread.sleep(r.nextInt(6000));//tiempo jugando en la sala de realidad virtual
                    this.filaRV.salirRV();
@@ -69,7 +70,7 @@ public class Visitante implements Runnable{
                    
                    this.filaTren.subirTren();
                    this.filaTren.bajarTren();
-                   
+                     
                    
                    //
                    //
@@ -86,7 +87,7 @@ public class Visitante implements Runnable{
                    int puntos=this.juegosPremios.jugarJuegos();
                    this.juegosPremios.recibirPremio(puntos);
                    
-                 
+                 */
             }           
 
              

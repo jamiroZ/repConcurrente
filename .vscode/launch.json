@@ -1,0 +1,329 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "TesteoRecurso",
+            "request": "launch",
+            "mainClass": "TP2_Hilos.ej1.TesteoRecurso",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "TesteoHilos",
+            "request": "launch",
+            "mainClass": "TP2_Hilos.ej2.TesteoHilos",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "ThreadEjemplo",
+            "request": "launch",
+            "mainClass": "TP2_Hilos.ej3y4.ThreadEjemplo",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "UsoHilos",
+            "request": "launch",
+            "mainClass": "TP2_Hilos.ej5.UsoHilos",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(1)",
+            "request": "launch",
+            "mainClass": "TP3_Sincronizacion.ej1.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "MainTest",
+            "request": "launch",
+            "mainClass": "TP3_Sincronizacion.ej2.MainTest",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "MainTest(1)",
+            "request": "launch",
+            "mainClass": "TP3_Sincronizacion.ej3.MainTest",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "parqueMain",
+            "request": "launch",
+            "mainClass": "TP3_Sincronizacion.ej4.parqueMain",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "testVehicular",
+            "request": "launch",
+            "mainClass": "TP3_Sincronizacion.ej5.testVehicular",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "SumaMain",
+            "request": "launch",
+            "mainClass": "TP3_Sincronizacion.ej6.SumaMain",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(2)",
+            "request": "launch",
+            "mainClass": "TP4_SemaforosBinarios.ej2.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(3)",
+            "request": "launch",
+            "mainClass": "TP4_SemaforosBinarios.ej3.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "GestorImpresoras",
+            "request": "launch",
+            "mainClass": "TP4_SemaforosBinarios.ej4.GestorImpresoras",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(4)",
+            "request": "launch",
+            "mainClass": "TP4_SemaforosBinarios.ej6.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "TestMain",
+            "request": "launch",
+            "mainClass": "TP4_SemaforosBinarios.ej7.TestMain",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "produccionMain",
+            "request": "launch",
+            "mainClass": "TP4_SemaforosBinarios.ej8.produccionMain",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(5)",
+            "request": "launch",
+            "mainClass": "TP5_SemaforosGenericos.ej2.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(6)",
+            "request": "launch",
+            "mainClass": "TP5_SemaforosGenericos.ej3.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(7)",
+            "request": "launch",
+            "mainClass": "TP5_SemaforosGenericos.ej5.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(8)",
+            "request": "launch",
+            "mainClass": "TP5_SemaforosGenericos.ej6.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(9)",
+            "request": "launch",
+            "mainClass": "TP5_SemaforosGenericos.ej8.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(10)",
+            "request": "launch",
+            "mainClass": "TP6_Monitores.ej1.monitores.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(11)",
+            "request": "launch",
+            "mainClass": "TP6_Monitores.ej1.semaforos.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(12)",
+            "request": "launch",
+            "mainClass": "TP6_Monitores.ej2.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(13)",
+            "request": "launch",
+            "mainClass": "TP6_Monitores.ej4.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(14)",
+            "request": "launch",
+            "mainClass": "TP6_Monitores.ej5.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(15)",
+            "request": "launch",
+            "mainClass": "TP6_Monitores.ej7.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(16)",
+            "request": "launch",
+            "mainClass": "TP7_Locks.ej1.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(17)",
+            "request": "launch",
+            "mainClass": "TP7_Locks.ej2.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(18)",
+            "request": "launch",
+            "mainClass": "TP7_Locks.ej3.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(19)",
+            "request": "launch",
+            "mainClass": "TP8.ej1.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(20)",
+            "request": "launch",
+            "mainClass": "TP8.ej2.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(21)",
+            "request": "launch",
+            "mainClass": "TP8.ej3.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(22)",
+            "request": "launch",
+            "mainClass": "TP8.ej4.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(23)",
+            "request": "launch",
+            "mainClass": "TP8.ej5.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Controlador",
+            "request": "launch",
+            "mainClass": "TP__FINAL.Controlador",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "MainParque",
+            "request": "launch",
+            "mainClass": "ejercicioParcial.parcial22.ejercicio1.MainParque",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "MainBuff",
+            "request": "launch",
+            "mainClass": "ejercicioParcial.parcial22.ejercicio2.MainBuff",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "MainBuff(1)",
+            "request": "launch",
+            "mainClass": "ejercicioParcial.parcial22.ejercicio2DobleCola.MainBuff",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(24)",
+            "request": "launch",
+            "mainClass": "ejercicioParcial.parcial23.ejercicio1.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(25)",
+            "request": "launch",
+            "mainClass": "ejercicioParcial.parcial23.ejercicio2.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "MainA",
+            "request": "launch",
+            "mainClass": "ejercicioParcial.recu23.Semaforo.MainA",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "Main(26)",
+            "request": "launch",
+            "mainClass": "ejercicioParcial.recu23.lock.Main",
+            "projectName": "repConcurrente_429f595c"
+        },
+        {
+            "type": "java",
+            "name": "main",
+            "request": "launch",
+            "mainClass": "problemaFilosofo.main",
+            "projectName": "repConcurrente_429f595c"
+        }
+    ]
+}
