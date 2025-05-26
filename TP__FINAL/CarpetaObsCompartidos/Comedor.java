@@ -4,7 +4,7 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public class FilaComedor {
+public class Comedor {
 
     private int cantEspera=0;//gente esperando para entrar al comedor
     private int cantMesas;//cantidad mesas del comedor
@@ -17,7 +17,7 @@ public class FilaComedor {
     private CyclicBarrier[]dejarMesa;
     private Boolean []mesasOcupadas;//mesas llenas
    
-    public FilaComedor(int cantMesas){
+    public Comedor(int cantMesas){
         this.cantMesas=cantMesas;
         this.capacidad=cantMesas*cantPersonasXmesa;
         this.mesas=new CyclicBarrier[cantMesas];

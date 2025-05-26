@@ -3,7 +3,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class FilaRealidadVirtual {
+public class SalaRealidadVirtual {
     private int capacidad=8;
     private int cont=0;
     private int cantVR=0;
@@ -19,7 +19,7 @@ public class FilaRealidadVirtual {
     private Condition condEntrada= lock.newCondition();
     private Condition condReposicion= lock.newCondition();
     private Condition condActividad= lock.newCondition();
-    public FilaRealidadVirtual() {
+    public SalaRealidadVirtual() {
         //capacidad de 8 personas actualmente
          this.cantBases=capacidad;
          this.cantManoplas=2*capacidad;

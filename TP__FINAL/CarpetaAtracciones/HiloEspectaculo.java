@@ -1,11 +1,11 @@
 package TP__FINAL.CarpetaAtracciones;
 import java.util.Random;
 
-import TP__FINAL.CarpetaObsCompartidos.FilaTeatro;
-public class Espectaculo implements Runnable{
-    private FilaTeatro filaTeatro;
+import TP__FINAL.CarpetaObsCompartidos.Teatro;
+public class HiloEspectaculo implements Runnable{
+    private Teatro filaTeatro;
 
-    public Espectaculo(FilaTeatro filaTeatro){
+    public HiloEspectaculo(Teatro filaTeatro){
         this.filaTeatro=filaTeatro;
     }
     public void run(){

@@ -1,11 +1,11 @@
 package TP__FINAL.CarpetaAtracciones;
 
-import TP__FINAL.CarpetaObsCompartidos.FilaRealidadVirtual;
+import TP__FINAL.CarpetaObsCompartidos.SalaRealidadVirtual;
 import java.util.Random;
 //simula al encargado de la atraccion entregando los 3 objetos requeridos para entrar a la atraccion y el tiempo que el de para la atraccion
-public class RealidadVirtual implements Runnable{
-    private FilaRealidadVirtual filaRV;
-    public RealidadVirtual (FilaRealidadVirtual filaRV){
+public class HiloRV implements Runnable{
+    private SalaRealidadVirtual filaRV;
+    public HiloRV (SalaRealidadVirtual filaRV){
              this.filaRV = filaRV;
     }
     public void run(){

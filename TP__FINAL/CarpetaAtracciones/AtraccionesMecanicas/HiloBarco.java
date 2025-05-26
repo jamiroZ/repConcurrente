@@ -2,11 +2,11 @@ package TP__FINAL.CarpetaAtracciones.AtraccionesMecanicas;
 
 import java.util.Random;
 
-import TP__FINAL.CarpetaObsCompartidos.FilaBarco;
+import TP__FINAL.CarpetaObsCompartidos.BarcoPirata;
 
-public class BarcoPirata implements Runnable{
-    private FilaBarco filaBarco;
-    public BarcoPirata(FilaBarco filaBarco){
+public class HiloBarco implements Runnable{
+    private BarcoPirata filaBarco;
+    public HiloBarco(BarcoPirata filaBarco){
          this.filaBarco = filaBarco;
     }
     public void run(){

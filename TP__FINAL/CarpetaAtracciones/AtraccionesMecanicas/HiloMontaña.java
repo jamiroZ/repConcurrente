@@ -1,10 +1,10 @@
 package TP__FINAL.CarpetaAtracciones.AtraccionesMecanicas;
 import java.util.Random;
 
-import TP__FINAL.CarpetaObsCompartidos.FilaMontaña;
-public class MontañaRusa implements Runnable{
-    private FilaMontaña fila;
-    public MontañaRusa(FilaMontaña fila){
+import TP__FINAL.CarpetaObsCompartidos.MontañaRusa;
+public class HiloMontaña implements Runnable{
+    private MontañaRusa fila;
+    public HiloMontaña(MontañaRusa fila){
          this.fila = fila;
     }
     public void run(){

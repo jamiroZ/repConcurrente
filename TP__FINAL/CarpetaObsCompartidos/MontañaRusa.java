@@ -1,6 +1,6 @@
 package TP__FINAL.CarpetaObsCompartidos;
 import java.util.concurrent.Semaphore;
-public class FilaMontaña {
+public class MontañaRusa {
     private int CAPACIDAD=5;//capacidad de la montaña rusa
     private int ESPACIO=10;//capacidad de espera 
     private int cont=0;
@@ -12,7 +12,7 @@ public class FilaMontaña {
     private Semaphore exclusion_Espera;
     //semaforo de la montaña rusa
     private Semaphore montaña;
-    public FilaMontaña(){
+    public MontañaRusa(){
         this.asientos = new Semaphore(this.CAPACIDAD);
         this.espera = new Semaphore(this.ESPACIO);
         this.montaña = new Semaphore(0);

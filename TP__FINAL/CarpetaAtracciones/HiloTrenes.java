@@ -1,11 +1,11 @@
 package TP__FINAL.CarpetaAtracciones;
-import TP__FINAL.CarpetaObsCompartidos.FilaTren;
+import TP__FINAL.CarpetaObsCompartidos.Tren;
 import TP__FINAL.CarpetaObsCompartidos.Parque;
 import java.util.Random;
-public class Trenes implements Runnable{
-    private FilaTren filaT;
+public class HiloTrenes implements Runnable{
+    private Tren filaT;
     //private Parque parque;
-    public Trenes(FilaTren filaT,Parque parque){
+    public HiloTrenes(Tren filaT,Parque parque){
             this.filaT=filaT;
             //this.parque=parque;
     }

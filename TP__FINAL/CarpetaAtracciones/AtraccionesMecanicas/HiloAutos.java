@@ -1,12 +1,12 @@
 package TP__FINAL.CarpetaAtracciones.AtraccionesMecanicas;
-
 import java.util.Random;
 
-import TP__FINAL.CarpetaObsCompartidos.FilaAutos;
+import TP__FINAL.CarpetaObsCompartidos.AutosChocadores;
 
-public class AutosChocadores implements Runnable {
-    private FilaAutos filaAutos;
-    public AutosChocadores(FilaAutos filaAutos){
+public class HiloAutos implements Runnable {
+
+    private AutosChocadores filaAutos;
+    public HiloAutos(AutosChocadores filaAutos){
          this.filaAutos = filaAutos;
     }
     public void run(){

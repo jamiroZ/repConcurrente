@@ -2,7 +2,7 @@ package TP__FINAL.CarpetaObsCompartidos;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 
-public class FilaTeatro {
+public class Teatro {
     //
     private boolean hayObra=false;
     private int capacidad=20;
@@ -15,7 +15,7 @@ public class FilaTeatro {
     private Semaphore salidaVisitantes;
     private Semaphore salidaAsistentes;
     private Semaphore show;
-    public FilaTeatro(){
+    public Teatro(){
         this.grupoAsistentes=new Semaphore(1);
         this.grupoVisitantes=new Semaphore(0);//entran de a 5
         this.show=new Semaphore(0);

@@ -1,10 +1,10 @@
 package TP__FINAL;
 
-import TP__FINAL.CarpetaObsCompartidos.FilaRealidadVirtual;
+import TP__FINAL.CarpetaObsCompartidos.SalaRealidadVirtual;
 
 public class Encargado implements Runnable {
-    private FilaRealidadVirtual filaRV;
-    public Encargado( FilaRealidadVirtual filaRV){
+    private SalaRealidadVirtual filaRV;
+    public Encargado( SalaRealidadVirtual filaRV){
         this.filaRV=filaRV;
     }
     public void run(){

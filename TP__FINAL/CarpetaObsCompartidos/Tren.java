@@ -2,7 +2,7 @@ package TP__FINAL.CarpetaObsCompartidos;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
-public class FilaTren {
+public class Tren {
     private int cont=capacidad;
     private static int capacidad=10;
     private static int tiempoDeEspera=5;
@@ -11,7 +11,7 @@ public class FilaTren {
     private BlockingQueue <Integer> arrancarTren=new ArrayBlockingQueue<>(1);
     private BlockingQueue <Integer> esperaPasajero=new ArrayBlockingQueue<>(capacidad);
     private BlockingQueue <Integer> esperaTren=new ArrayBlockingQueue<>(1);
-    public FilaTren() {
+    public Tren() {
         try {
             arrancarTren.put(1);
             esperaTren.put(1);

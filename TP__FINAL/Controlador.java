@@ -12,14 +12,14 @@ import TP__FINAL.CarpetaObsCompartidos.*;
 public class Controlador{
     public static void main(String[] args) {
         //-----OBJETOS COMPARTIDOS----
-        FilaMontaña fila=new FilaMontaña();
-        FilaAutos filaA=new FilaAutos();
-        FilaBarco filaB=new FilaBarco();
-        FilaTeatro filaT=new FilaTeatro();
-        FilaRealidadVirtual filaRV = new FilaRealidadVirtual();
-        FilaTren filaTren = new FilaTren();
-        FilaComedor comedor=new FilaComedor(4);
-        Premios premios=new Premios();
+        MontañaRusa fila=new MontañaRusa();
+        AutosChocadores filaA=new AutosChocadores();
+        BarcoPirata filaB=new BarcoPirata();
+        Teatro filaT=new Teatro();
+        SalaRealidadVirtual filaRV = new SalaRealidadVirtual();
+        Tren filaTren = new Tren();
+        Comedor comedor=new Comedor(4);
+        AreaDePremios premios=new AreaDePremios();
         Parque parque=new Parque();
 
         //---------HILOS-------
@@ -34,15 +34,12 @@ public class Controlador{
         Thread[] hilos=new Thread[25];
 
         //HILOS DE ATRACCIONES Y ENCARGADOS
-        EncargadoPremios encargadoP=new EncargadoPremios(premios);
-        Thread hiloEncargadoP=new Thread(encargadoP);
-        hiloEncargadoP.start();
 
-        Trenes trenes=new Trenes(filaTren,parque);
+        HiloTrenes trenes=new HiloTrenes(filaTren,parque);
         Thread hiloTrenes=new Thread(trenes);
         hiloTrenes.start();
         
-        RealidadVirtual rv=new RealidadVirtual(filaRV);
+        HiloRV rv=new HiloRV(filaRV);
         Thread hiloRV = new Thread(rv);
         hiloRV.start();
 
@@ -50,21 +47,25 @@ public class Controlador{
         Encargado encargado=new Encargado(filaRV);
         Thread hiloEncargado=new Thread(encargado);
         hiloEncargado.start();
+        //ENCARGADO DEL AREA DE PREMIOS
+        HiloDePremios encargadoPremios=new HiloDePremios(premios);
+       Thread hiloEncargadoPremios=new Thread(encargadoPremios);
+       hiloEncargadoPremios.start();
 
-        MontañaRusa m=new MontañaRusa(fila);
+        HiloMontaña m=new HiloMontaña(fila);
         Thread hilo=new Thread(m);
         hilo.start();
 
-        Espectaculo teatro=new Espectaculo(filaT);
+        HiloEspectaculo teatro=new HiloEspectaculo(filaT);
         Thread hiloTeatro=new Thread(teatro);
         hiloTeatro.start();
         
-        //ASISTENTES DEL TEATRO
-        AutosChocadores autos=new AutosChocadores(filaA);
+        //
+        HiloAutos autos=new HiloAutos(filaA);
         Thread hilo2=new Thread(autos);
         hilo2.start();
 
-        BarcoPirata b=new BarcoPirata(filaB);
+        HiloBarco b=new HiloBarco(filaB);
         Thread hiloBarco=new Thread(b);
         hiloBarco.start();
 
