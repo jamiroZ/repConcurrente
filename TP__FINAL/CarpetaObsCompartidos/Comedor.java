@@ -1,94 +1,72 @@
 package TP__FINAL.CarpetaObsCompartidos;
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 public class Comedor {
-
-    private int cantEspera=0;//gente esperando para entrar al comedor
-    private int cantMesas;//cantidad mesas del comedor
-    private int cantOcupadas=0;//mesas ocupadas
-    private int cantPersonasXmesa=4;//maximo de personas que pueden estar en una mesa
-    private int capacidad;
-    private int cantPersonas=0;
-    private int[]asientosOcupados;
-    private CyclicBarrier[]mesas;
-    private CyclicBarrier[]dejarMesa;
-    private Boolean []mesasOcupadas;//mesas llenas
+    private int totalMesas;
+    private int sillas;
+    private Semaphore semaforoMesas;//acceso al comedor y salida
+    private CyclicBarrier []barreraMesa;//esperan a los 4 clientes para que puedan comer
+    private int[]sillasOcupadas;//contador de asientos ocupados por mesa
+    private final Object[] locksMesas; // Para sincronizar acceso por mesa
    
-    public Comedor(int cantMesas){
-        this.cantMesas=cantMesas;
-        this.capacidad=cantMesas*cantPersonasXmesa;
-        this.mesas=new CyclicBarrier[cantMesas];
-        this.dejarMesa=new CyclicBarrier[cantMesas];
-        this.mesasOcupadas=new Boolean[cantMesas];
-        this.asientosOcupados=new int[cantMesas];
-        for(int i=0;i<cantMesas;i++){
-            mesas[i]=new CyclicBarrier(cantPersonasXmesa);
-            dejarMesa[i]=new CyclicBarrier(cantPersonasXmesa);
-            mesasOcupadas[i]=false;
+    public Comedor() {
+        totalMesas = 5;// maximo de mesas
+        sillas = 4;// constante,cantidad personas por mesa
+        semaforoMesas = new Semaphore(totalMesas * sillas);
+        sillasOcupadas = new int[totalMesas];//cuantos se van centando por mesa
+        barreraMesa=new CyclicBarrier[totalMesas];
+        locksMesas = new Object[totalMesas];
+        for(int i=0; i< totalMesas; i++) {
+          barreraMesa [i]= new CyclicBarrier(sillas, () -> System.out.println("La mesa se llena, todos empiezan a comer"));
+          locksMesas[i]=new Object();//lock por mesa
         }
     }
 
-    public synchronized void entrarComedor() throws InterruptedException {
-        if(cantPersonas==capacidad){//espera a que se desocupe espacio en el comedor
-            this.wait();
+    public boolean entrarComedor() {
+        boolean resultado = semaforoMesas.tryAcquire();
+        if (resultado) {
+            System.out.println("visitante "+Thread.currentThread().getName() + " entró al comedor");
+        } else {
+            System.out.println("visitante "+Thread.currentThread().getName() + " no pudo entrar al comedor porque estaba lleno");
         }
-        cantPersonas++;//entra al comedor
-        System.out.println("visitante "+Thread.currentThread().getName()+" entra al comedor ");
+        return resultado;
     }
 
-    public  int buscarMesa()throws InterruptedException, BrokenBarrierException, TimeoutException{
-        int mesaElegida=-1;
-        int i=0;//uso para desplazarme entre las mesas
-        int j=0;
-        try{
-            synchronized(this){//bloque para garantizar la exclusion mutua
-                while(mesaElegida==-1){//busca mesa 
-                    if(!mesasOcupadas[i]){//si la mesa tiene espacio esta libre 
-                        mesaElegida=i;
-                        asientosOcupados[i]= asientosOcupados[i]+1;//ocupa 1 de 4 asientos
-
-                        System.out.println("visitante "+Thread.currentThread().getName()+" se sienta en la mesa "+mesaElegida);
-                        if(asientosOcupados[i] == cantPersonasXmesa){//se lleno la mesa
-                           mesasOcupadas[i]=true;//la mesa esta ocupada
-                        }
-                }else{
-                    i++;//busca otra mesa
+    public int sentarse() throws InterruptedException {
+       int mesa=-1;
+       // Buscar mesa disponible
+        for (int i = 0; i < totalMesas; i++) {
+            synchronized (locksMesas[i]) {
+                if (sillasOcupadas[i] < sillas) {
+                    sillasOcupadas[i]++;
+                    mesa = i;
+                    break;
                 }
-               }
-           }
-           //si se sento alguien, espera 5minutos a que se llene o sirve la comida
-           System.out.println(mesaElegida+"-"+asientosOcupados[mesaElegida]);
-           mesas[mesaElegida].await(14, TimeUnit.SECONDS);
-           if(asientosOcupados[mesaElegida] == cantPersonasXmesa){//si la mesa esta llena comen
-              System.out.println("visitante "+Thread.currentThread().getName()+" come en la mesa "+mesaElegida);
-              
-           }
-        }catch(java.util.concurrent.TimeoutException ex){
-            System.out.println("se cansaron de esperar la comida");
-
-        }catch(Exception e){
-
+            }
         }
-        return mesaElegida;
-    } 
-
-    public void dejarMesa(int mesaElegida) throws InterruptedException, BrokenBarrierException, TimeoutException {
-        synchronized(this){
-            asientosOcupados[mesaElegida]--;
+        try {
+            if(mesa== -1){//no hay mesa con espacio
+                System.out.println("visitante "+Thread.currentThread().getName() + " no pudo sentarse ");
+                return -1;
+            }
+            System.out.println("visitante "+Thread.currentThread().getName() + " se sentó en la mesa "+mesa);
+            barreraMesa[mesa].await();//hasta que la mesa no este llena no comen
+        }catch (Exception e) {
+            System.out.println("Error en la sincronización de la mesa: " + e.getMessage());
         }
-        dejarMesa[mesaElegida].await(5, TimeUnit.SECONDS);     
-        //System.out.println("visitante "+Thread.currentThread().getName()+" deja la mesa "+mesaElegida);
-        mesasOcupadas[mesaElegida]=false;//hay espacio para que se siente alguien
-        
+        return mesa;
     }
 
-    public synchronized void salirComedor() throws InterruptedException{
-        System.out.println("visitante "+Thread.currentThread().getName()+" sale del comedor ");
-        cantPersonas--;//hay espacio en el comedor
-        this.notify();
+    public void salir(int mesa) {
+        synchronized(locksMesas[mesa]){
+            sillasOcupadas[mesa]--;
+            System.out.println("visitante "+Thread.currentThread().getName() + " salio del comedor");
+            if(sillasOcupadas[mesa]==0){//la mesa se vacio
+                semaforoMesas.release(sillas);//deja entrar a 4 al comedor a buscar mesa
+                System.out.println("La mesa"+mesa+" esta libre");
+            } 
+        }     
     }
-
 }

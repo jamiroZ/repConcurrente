@@ -1,40 +1,29 @@
 package TP__FINAL.CarpetaObsCompartidos;
+
 import java.util.concurrent.Exchanger;
-import java.util.Random;
+import java.util.concurrent.Semaphore;
+
 public class AreaDePremios {
-     private Exchanger<String> fichaExchanger = new Exchanger<>();
-    private Exchanger<Integer> puntosExchanger = new Exchanger<>();
-    private Exchanger<String> premioExchanger = new Exchanger<>();
+    private final Exchanger<String> ficha;
+    private final Semaphore semEntrada;
 
-     //Entregar ficha
-    public synchronized void pedirFicha() throws InterruptedException {
-        System.out.println(Thread.currentThread().getName() + " pidió una ficha...");
-        String ficha = fichaExchanger.exchange(null);  // espera entrega
-        System.out.println(Thread.currentThread().getName() + " recibió una ficha: " + ficha);
+    public AreaDePremios() {
+        ficha = new Exchanger<String>();
+        semEntrada = new Semaphore(0);// asegura que un visitante notifique a un encargado para cambiar fichas
     }
 
-    public void entregarFicha() throws InterruptedException {
-        fichaExchanger.exchange("Ficha"); // entrega al visitante que espera
-        System.out.println("Encargado entregó una ficha a un visitante");
+    public int jugar() throws InterruptedException {
+        semEntrada.release(); // notifica al empleado para poder recibir una ficha
+        ficha.exchange(Thread.currentThread().getName() + " cambia una ficha");
+        int randomSleep = (int) (Math.random() * 10) * 1000;
+        Thread.sleep(randomSleep); // simula tiempo de juego
+        return randomSleep;
     }
 
-    public void enviarPuntos(int puntos) throws InterruptedException {
-        puntosExchanger.exchange(puntos);
-        System.out.println(Thread.currentThread().getName() + " jugó y obtuvo " + puntos + " puntos");
-    }
-
-    public void entregarPremio() throws InterruptedException {
-        int puntos = puntosExchanger.exchange(0);
-        String premio;
-        if (puntos >= 80) premio = "Pelota grande";
-        else if (puntos >= 50) premio = "Pelota chica";
-        else premio = "Sticker";
-        premioExchanger.exchange(premio);
-        System.out.println("Encargado entregó premio: " + premio + " (por " + puntos + " puntos)");
-    }
-
-    public void recibirPremio() throws InterruptedException {
-        String premio = premioExchanger.exchange(null);
-        System.out.println(Thread.currentThread().getName() + " recibió premio: " + premio);
+    public void darFicha() throws InterruptedException {
+        // metodo ejecutado por los encargados del area
+        semEntrada.acquire();
+        String pantalla = ficha.exchange("");
+        System.out.println(pantalla);
     }
 }

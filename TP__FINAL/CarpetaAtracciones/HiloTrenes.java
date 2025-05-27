@@ -15,9 +15,9 @@ public class HiloTrenes implements Runnable{
             Random r=new Random();
             while(true){
                 //while(this.parque.estadoDelParque()){
-                  filaT.arrancarTren();
+                
                   Thread.sleep(r.nextInt(8000));
-                  filaT.frenarTren();
+              
                 //}
             }
         } catch (Exception e) {

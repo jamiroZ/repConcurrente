@@ -10,8 +10,7 @@ public class HiloDePremios implements Runnable{
     public void run(){
          try {
             while(true){
-                this.juegosPremios.entregarFicha();
-                this.juegosPremios.entregarPremio();
+                this.juegosPremios.darFicha();
             }
             
          } catch (Exception e) {

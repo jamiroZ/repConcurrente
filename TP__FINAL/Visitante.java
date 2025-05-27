@@ -74,18 +74,18 @@ public class Visitante implements Runnable{
                    this.filaTren.subirTren();
                    this.filaTren.bajarTren();
 
-                
-                   this.comedor.entrarComedor();
-                   this.comedor.buscarMesa();
-                   Thread.sleep(r.nextInt(10000));//tiempo comiendo
-                   this.comedor.salirComedor();
-                   //
-                */
-                   this.juegosPremios.pedirFicha();
-                   Thread.sleep(r.nextInt(3000)+1000);// tiempo jugando
-                   int puntos = (int) (Math.random() * 100);
-                   this.juegosPremios.enviarPuntos(puntos);
-                     Thread.sleep(r.nextInt(6000)+1000);// tiempo jugando
+                Thread.sleep(r.nextInt(2000)+1000);// tiempo jugando
+                   this.juegosPremios.jugar();
+                Thread.sleep(r.nextInt(4000)+1000);// tiempo jugando
+                  
+                   
+                */ 
+                this.comedor.entrarComedor();
+                int mesa=this.comedor.sentarse();
+                Thread.sleep(r.nextInt(10000));//tiempo comiendo
+                if(mesa!= -1){
+                   this.comedor.salir(mesa);
+                }
             }           
 
              
