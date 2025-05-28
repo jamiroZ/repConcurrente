@@ -1,82 +1,89 @@
 package TP__FINAL.CarpetaObsCompartidos;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.locks.*;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 public class Tren {
-    private BlockingQueue<String> colaTren;
-    private int pasajeros, max, minutos;
-    private Semaphore semaforoTren, semaforoBajada;
-    boolean trenListo;
-
-    public Tren(int capacidad) {
-        colaTren = new ArrayBlockingQueue<>(capacidad);
-        this.pasajeros = 0;
-        max = capacidad;
-        minutos = 0;
-        semaforoTren = new Semaphore(1);
+    private BlockingQueue<String> colaTren;//cola de tren con capacidad para 10
+    private LinkedBlockingQueue<String> colaEspera=new LinkedBlockingQueue<>();//cola de espera sin limite
+    private Semaphore semaforoBajada,semaforoTren;
+    private Lock lock=new ReentrantLock();
+    private Condition arranque=lock.newCondition();
+    private int pasajeros;//contador de pasajeros
+    private int max;//capacidad maxima del tren
+    private Boolean espera=false;
+    public Tren() {
+        this.max=10;
+        this.pasajeros = 0;//hay 0 pasajeros
+        colaTren = new ArrayBlockingQueue<>(max);
         semaforoBajada = new Semaphore(0);
-        trenListo = false;
+        semaforoTren= new Semaphore(1);
     }
+    //metodo que permite subir pasajeros y esperar en la cola
+    public void entrarColaDeEspera() throws InterruptedException{
+        String visitante="visitante "+Thread.currentThread().getName();   
+        colaEspera.put(visitante);//un visitante en espera
+        System.out.println(visitante+" en espera ");
+        lock.lock();
+        try {   
+            if(colaTren.remainingCapacity()>0){//si hay espacio
+                colaTren.put(visitante);//si hay espacio en el tren sube,sino queda en espera
+                pasajeros++;//se sube un pasajero
+                System.out.println(visitante+" deja espera y sube al tren ("+pasajeros+"/"+max+")");
+                if(pasajeros==1){//si fue el primero arranca el conteo para que el tren se mueva
+                    espera=true;
+                    arranque.signal();//que arranque la espera de 5 segundos
+                }    
+                if(pasajeros == max ){//tren lleno arranca                 
+                    arranque.signal();//que arranque el tren 
+                }  
+            }
+            colaEspera.take();//sale de la cola de espera
+           // System.out.println(" visitantes en espera "+colaEspera.size());
 
-    public int getMinutos() {
-        return minutos;
-    }
-
-    public void reiniciarReloj() {
-        minutos = 0;
-    }
-
-    public void incrementar() {
-        minutos++;
-    }
-
-    public void esperarTren() throws InterruptedException {
-        colaTren.put("Agrega nuevo visitante");
-        System.out.println(Thread.currentThread().getName() + " esta esperando el tren");
-    }
-
-    public void abordar() throws InterruptedException {
-        if (!vacia() && pasajeros <= max) {
-            // mientras que haya gente en la cola la sube al tren
-            // con esa condicion evito que el hilo Maquinista quede en deadlock
-            semaforoTren.acquire();
-            colaTren.take();
-            pasajeros++;
-            System.out.println("Pasajero subio al tren.pasajeros: " + pasajeros);
-            semaforoTren.release();
+        } finally {
+                lock.unlock();
         }
-        if (pasajeros == max) {
-            hacerRecorrido();
-        }
+        
     }
+    //meoto de arranque del trayecto del tren
+    public void arrancarRecorrido()throws InterruptedException{
+        lock.lock();
+        try {  
+            // esperamos hasta que suba uno
+            while (pasajeros == 0 || !espera) {
+                arranque.await(); // se despierta solo cuando entra el primero
+            }
+            // subió al menos uno, esperamos a que se llene o pasen 5 segundos
+            System.out.println(" Esperando que el tren se llene (5 segundos máx)");
+            arranque.await(5, TimeUnit.SECONDS); // espera a que se llene o que se cumpla el tiempo
 
-    public void hacerRecorrido() throws InterruptedException {
-        semaforoTren.acquire();
-        System.out.println("El tren parte de la estacion");
-        Thread.sleep(4500);
-        // termina el recorrido.
-        reiniciarReloj();// reinicia el cronometro de 5 minutos
-        System.out.println("Finaliza el recorrido");
-        semaforoTren.release();// libera el tren
-        semaforoBajada.release();
-    }
-
-    public void bajarTren() throws InterruptedException {
-        semaforoBajada.acquire();
-        System.out.println(Thread.currentThread().getName() + " bajo del tren");
-        pasajeros--;
-        if (pasajeros > 0) {
-            semaforoBajada.release();// aseguro que el ultimo pasajero no deje 1 permiso liberado de mas
+            System.out.println("Tren arranca con "+pasajeros+" pasajeros.");
+        }finally{
+            lock.unlock();
         }
     }
-
-    public boolean trenLleno() {
-        return pasajeros >= max;
+    public void terminoRecorrido()throws InterruptedException{
+       System.out.println("tren finalizo recorrido");
+       espera=false;
+       semaforoBajada.release(max);//permite a los visitantes bajar
     }
-
-    public boolean vacia() {
-        return colaTren.isEmpty();
+    public void bajarTren()throws InterruptedException{
+        semaforoBajada.acquire();//se baja un pasajero
+        System.out.println("visitante "+Thread.currentThread().getName()+" se bajo del tren");
+        lock.lock();
+        try {
+            pasajeros--;//baja del tren
+            if(pasajeros==0){//tren vacio
+                System.out.println("tren vacio");
+                colaTren.clear();//vacio la cola
+            }
+        } finally{
+            lock.unlock();
+        }
+       
     }
 }
     /*private int cont=capacidad;

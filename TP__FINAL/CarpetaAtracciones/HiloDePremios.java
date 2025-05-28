@@ -9,8 +9,14 @@ public class HiloDePremios implements Runnable{
     }
     public void run(){
          try {
+            //Thread.sleep(4000);
             while(true){
+                /*
+                  el encargado tiene como tarea principal entregar fichas para que jueguen 
+                  despues cambiar los puntos por premios de los jugadores que ganaron
+                */
                 this.juegosPremios.darFicha();
+                this.juegosPremios.darPremio();
             }
             
          } catch (Exception e) {

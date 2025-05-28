@@ -71,24 +71,21 @@ public class Visitante implements Runnable{
                    this.filaT.ingresaVisitante();
                    this.filaT.saleVisitante();
                    
-                   this.filaTren.subirTren();
-                   this.filaTren.bajarTren();
-
-                Thread.sleep(r.nextInt(2000)+1000);// tiempo jugando
-                   this.juegosPremios.jugar();
-                Thread.sleep(r.nextInt(4000)+1000);// tiempo jugando
-                  
-                   
-                */ 
+               
                 this.comedor.entrarComedor();
                 int mesa=this.comedor.sentarse();
                 Thread.sleep(r.nextInt(10000));//tiempo comiendo
                 if(mesa!= -1){
                    this.comedor.salir(mesa);
-                }
-            }           
+                } 
+                 this.filaTren.entrarColaDeEspera();
+                   this.filaTren.bajarTren();
+                */        
+                this.juegosPremios.pedirFicha();
+                Thread.sleep(r.nextInt(3000)+1000);// tiempo jugando
+                this.juegosPremios.jugarYrecibirPremio();
 
-             
+            } 
         } catch (Exception e) {
             // TODO: handle exception
         }finally{

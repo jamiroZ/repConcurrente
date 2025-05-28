@@ -17,7 +17,7 @@ public class Controlador{
         BarcoPirata filaB=new BarcoPirata();
         Teatro filaT=new Teatro();
         SalaRealidadVirtual filaRV = new SalaRealidadVirtual();
-        Tren filaTren = new Tren(7);
+        Tren filaTren = new Tren();
         Comedor comedor=new Comedor();
         AreaDePremios premios=new AreaDePremios();
         Parque parque=new Parque();
@@ -47,15 +47,19 @@ public class Controlador{
         Encargado encargado=new Encargado(filaRV);
         Thread hiloEncargado=new Thread(encargado);
         hiloEncargado.start();
+
         //ENCARGADO DEL AREA DE PREMIOS
-        int cantEncargados=3;
-        HiloDePremios []encargadoPremios=new HiloDePremios[cantEncargados];
+        int cantEncargados=1;//
+        HiloDePremios encargadoPremios=new HiloDePremios(premios);
+        Thread hiloEncargadoPremios=new Thread(encargadoPremios);
+        hiloEncargadoPremios.start();
+       /* HiloDePremios []encargadoPremios=new HiloDePremios[cantEncargados];
         Thread []hiloEncargadoPremios=new Thread[cantEncargados];
         for(int i=0;i<cantEncargados;i++){
             encargadoPremios[i]= new HiloDePremios(premios);
             hiloEncargadoPremios[i]=new Thread(hiloEncargadoPremios[i],""+i);
             hiloEncargadoPremios[i].start();
-        }
+        }*/ 
 
         HiloMontaña m=new HiloMontaña(fila);
         Thread hilo=new Thread(m);
