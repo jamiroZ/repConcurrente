@@ -3,10 +3,10 @@ import java.util.concurrent.Semaphore;
 public class MontañaRusa {
     private int CAPACIDAD=5;//capacidad de la montaña rusa
     private int ESPACIO=10;//capacidad de espera 
-    private int cont=0;
-    private int contEspera=0;
-    //semaforos del visitante
-    private Semaphore asientos;
+    private int cont=0;//contador de visitantes en la montaña rusa
+    private int contEspera=0;//contador de espera
+    //semaforos 
+    private Semaphore asientos;//
     private Semaphore espera;
     private Semaphore visitanteSale;
     private Semaphore exclusion_Espera;
@@ -19,34 +19,40 @@ public class MontañaRusa {
         this.visitanteSale=new Semaphore(0);
         this.exclusion_Espera=new Semaphore(1);
     }
-    //PROBLEMA la capacidad de espera de 10 personas bloquea a mas de la capacidad
+    //
     public Boolean subirMontaña() throws InterruptedException {
-        Boolean sube=true;//asumo que sube a la montaña rusa
-        this.exclusion_Espera.acquire();
-            if(!this.espera.tryAcquire()){//si no hay espacio de espera
-                    System.out.println(Thread.currentThread().getName()+" No hay espacio de espera, va a otra atraccion");
-                    sube=false;//no espera 
-            } 
-            this.contEspera++;
-        this.exclusion_Espera.release();
-
-        if(cont>=5 && contEspera < 10 ){          
-                    System.out.println(Thread.currentThread().getName()+" espera montaña rusa");
-        }
-        this.asientos.acquire();//sube a la montaña rusa   
-        
-
-        this.exclusion_Espera.acquire();
-            
-            this.cont++;//ocupa un asiento
-            System.out.println(Thread.currentThread().getName()+" subiendo a la montaña rusa");    
-            if(this.cont==5){//si la montaña rusa esta llena arranca
-                        this.montaña.release();//montaña lista para arrancar
+        boolean adquirioEspera = this.espera.tryAcquire(); // intenta entrar a la cola de espera
+        if (!adquirioEspera) {
+            synchronized(System.out){
+             System.out.println(Thread.currentThread().getName() + " No hay espacio de espera, va a otra atraccion (cola llena)");
             }
-            this.contEspera--;
-            this.espera.release();// libera un lugar en la fila de espera   
-        this.exclusion_Espera.release();   
-        return sube;      
+            return false;
+        }
+       
+        this.exclusion_Espera.acquire();
+        try {       
+            contEspera++; //ahora espera, aumenta contador de espera
+            System.out.println("visitante " + Thread.currentThread().getName() + " espera montaña rusa (" + contEspera + "/" + 10 + ")");
+        } finally {
+            this.exclusion_Espera.release();
+        }
+       
+        this.asientos.acquire(); // intenta adquirir el asiento
+        
+        this.exclusion_Espera.acquire();//
+        try {  
+            cont++; // ocupa asiento
+            System.out.println("visitante " + Thread.currentThread().getName() + " subiendo a la montaña rusa (" + cont + "/" + 5 + ")");
+             
+            if (cont == 5) {
+                contEspera=contEspera-5;//libera 5 personas de la cola de espera
+                this.montaña.release(); // ya están todos, puede arrancar
+                this.espera.release(5); // libera el permiso de espera para 5(puede esperar otro mas)
+            }
+        } finally {
+            this.exclusion_Espera.release();
+        }
+        return true;
     }
     public void bajarMontaña() throws InterruptedException {
         this.visitanteSale.acquire();//una ves que llega lo toma

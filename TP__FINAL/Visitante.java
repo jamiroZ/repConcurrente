@@ -47,12 +47,14 @@ public class Visitante implements Runnable{
             int num2=0;
             while(this.parque.estadoDelParque() ){//mientras el parque este abierto puede realizar las atracciones
                    Boolean ret;
-                 /*   
+                    
                    ret=this.fila.subirMontaña();
                    if(ret){
                     this.fila.bajarMontaña();
                    }
-                   Thread.sleep(r.nextInt(10000));
+                   Thread.sleep(r.nextInt(3000));
+                   /*
+                   
                    this.filaB.subirBarco();
                    Thread.sleep(500);
                    this.filaB.bajarBarco();
@@ -80,11 +82,11 @@ public class Visitante implements Runnable{
                 } 
                  this.filaTren.entrarColaDeEspera();
                    this.filaTren.bajarTren();
-                */        
+                      
                 this.juegosPremios.pedirFicha();
                 Thread.sleep(r.nextInt(3000)+1000);// tiempo jugando
                 this.juegosPremios.jugarYrecibirPremio();
-
+                */  
             } 
         } catch (Exception e) {
             // TODO: handle exception

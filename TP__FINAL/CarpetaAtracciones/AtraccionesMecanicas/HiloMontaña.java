@@ -12,7 +12,7 @@ public class HiloMontaña implements Runnable{
         try {
             while(true){
                this.fila.arrancar();
-               Thread.sleep(r.nextInt(2000)+1000);
+               Thread.sleep(r.nextInt(4000)+1000);
                this.fila.parar();
             }
         } catch (Exception e) {
