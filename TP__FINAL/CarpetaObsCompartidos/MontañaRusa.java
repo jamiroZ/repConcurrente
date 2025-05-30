@@ -31,7 +31,9 @@ public class MontañaRusa {
        
         this.exclusion_Espera.acquire();
         try {       
+
             contEspera++; //ahora espera, aumenta contador de espera
+            
             System.out.println("visitante " + Thread.currentThread().getName() + " espera montaña rusa (" + contEspera + "/" + 10 + ")");
         } finally {
             this.exclusion_Espera.release();
